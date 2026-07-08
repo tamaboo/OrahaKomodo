@@ -40,22 +40,45 @@ export const dict = {
       text2Desc: "Mereka tidak ditemukan di tempat lain di Bumi. Hanya lima pulau terjal di Nusa Tenggara Timur yang menjadi kerajaan liar bagi predator tangguh dan penyendiri ini."
     },
     peta: {
-      subtitle: "Explorer's Directory",
-      title1: "Peta &",
-      title2: "Panduan Wisata",
-      desc: "Arahkan kursor pada peta untuk menjelajahi titik destinasi, dan pahami aturan penting di bawah untuk menjaga kelestarian alam Komodo.",
-      locations: "10 Titik Destinasi Favorit",
-      ruleTitle: "Aturan Wajib Pengunjung",
-      ruleSubtitle: "Demi keselamatan & konservasi alam",
-      rules: [
-        { title: "Jaga Jarak Aman & Patuhi Ranger", desc: "Komodo adalah predator liar yang agresif. Selalu berjalan bersama pemandu resmi dan jaga jarak minimal 5 meter dari satwa." },
-        { title: "Bawa Pulang Sampahmu (Zero Waste)", desc: "Dilarang membuang sampah plastik di laut atau jalur trekking. Ekosistem laut Komodo sangat rentan terhadap pencemaran." },
-        { title: "Matikan Flash Saat Memotret", desc: "Cahaya kilat mendadak dapat mengejutkan dan memicu keagresifan komodo serta mengganggu aktivitas alami satwa malam." },
-        { title: "Dilarang Menyulut Api / Merokok", desc: "Savana kering di Padar dan Rinca sangat rawan kebakaran. Hindari membawa atau menyalakan sumber api di area konservasi." }
+      subtitle: "PETA & PANDUAN WISATA",
+      title1: "Explore Komodo",
+      title2: "Archipelago",
+      desc: "Temukan lokasi destinasi terbaik dan rencanakan perjalananmu dengan bijak.",
+      stats: [
+        { num: "29", label: "Destinasi Menakjubkan" },
+        { num: "18", label: "Pulau Eksotis" },
+        { num: "7", label: "Spot Snorkeling Terbaik" }
       ],
-      ctaBadge: "Ekowisata Berkelanjutan",
-      ctaTitle: "Jadilah Wisatawan yang Bijak",
-      ctaDesc: "Taman Nasional Komodo adalah warisan dunia UNESCO. Setiap langkah dan tindakan kita di pulau ini sangat menentukan kelangsungan hidup satwa purba untuk generasi masa depan."
+      dodontTitle: "DO & DON'T",
+      dodontDesc: "Mari menjaga Komodo dan alamnya tetap lestari untuk generasi mendatang.",
+      doTitle: "DO",
+      doList: [
+        "Jaga jarak aman dari Komodo",
+        "Ikuti instruksi ranger",
+        "Bawa kembali sampahmu",
+        "Gunakan tabir surya ramah lingkungan",
+        "Hormati budaya lokal"
+      ],
+      dontTitle: "DON'T",
+      dontList: [
+        "Jangan memberi makan Komodo",
+        "Jangan berisik atau membuat keributan",
+        "Jangan merusak tanaman & terumbu",
+        "Jangan buang sampah sembarangan",
+        "Jangan merokok di area taman nasional"
+      ]
+    },
+    faq: {
+      title1: "Pertanyaan",
+      title2: "Seputar Tour",
+      desc: "Temukan jawaban cepat untuk perjalanan Anda bersama EcoKomodo.",
+      data: [
+        { question: "Kapan waktu terbaik untuk mengunjungi Taman Nasional Komodo?", answer: "Waktu terbaik adalah saat musim kemarau, yaitu antara bulan Mei hingga Oktober." },
+        { question: "Apakah aman berinteraksi langsung dengan Komodo?", answer: "Sangat aman selama Anda mematuhi aturan dan didampingi Ranger profesional." },
+        { question: "Bagaimana cara menjadi turis yang ramah lingkungan?", answer: "Bawa botol minum sendiri (tumbler) untuk mengurangi sampah plastik. Gunakan tabir surya (sunscreen) berlabel 'Reef Safe' agar tidak merusak terumbu karang." },
+        { question: "Apakah anak-anak dan lansia bisa ikut tur ini?", answer: "Tentu bisa! Kami sarankan memilih rute trekking pendek di Pulau Rinca atau menikmati Pink Beach dan Pulau Kanawa." },
+        { question: "Apakah harga paket sudah termasuk tiket masuk Taman Nasional?", answer: "Harga pada aplikasi EcoKomodo adalah estimasi biaya per orang untuk aktivitas tersebut. Tiket masuk resmi Taman Nasional (PNBP) biasanya dibayarkan terpisah saat tiba di gerbang pelabuhan." }
+      ]
     }
   },
   en: {
@@ -97,22 +120,45 @@ export const dict = {
       text2Desc: "They are found nowhere else on Earth. Only five rugged islands in East Nusa Tenggara serve as the wild kingdom for these solitary, formidable hunters."
     },
     peta: {
-      subtitle: "Explorer's Directory",
-      title1: "Map &",
-      title2: "Travel Guide",
-      desc: "Hover over the map to explore destination points, and understand the important rules below to maintain the preservation of Komodo's nature.",
-      locations: "10 Favorite Destination Points",
-      ruleTitle: "Mandatory Visitor Rules",
-      ruleSubtitle: "For safety & nature conservation",
-      rules: [
-        { title: "Keep a Safe Distance & Follow Rangers", desc: "Komodo dragons are aggressive wild predators. Always walk with official guides and keep a minimum distance of 5 meters from the animals." },
-        { title: "Carry Out Your Trash (Zero Waste)", desc: "Littering plastic in the sea or on trekking paths is prohibited. Komodo's marine ecosystem is highly vulnerable to pollution." },
-        { title: "Turn Off Flash When Photographing", desc: "Sudden camera flashes can startle and trigger aggression in Komodo dragons and disrupt the natural activity of nocturnal animals." },
-        { title: "No Fire / Smoking Allowed", desc: "The dry savannas in Padar and Rinca are highly fire-prone. Avoid carrying or lighting fire sources in conservation areas." }
+      subtitle: "MAP & TRAVEL GUIDE",
+      title1: "Explore Komodo",
+      title2: "Archipelago",
+      desc: "Find the best destination locations and plan your trip wisely.",
+      stats: [
+        { num: "29", label: "Amazing Destinations" },
+        { num: "18", label: "Exotic Islands" },
+        { num: "7", label: "Best Snorkeling Spots" }
       ],
-      ctaBadge: "Sustainable Ecotourism",
-      ctaTitle: "Be a Wise Traveler",
-      ctaDesc: "Komodo National Park is a UNESCO World Heritage site. Every step and action we take on this island greatly determines the survival of these ancient creatures for future generations."
+      dodontTitle: "DO & DON'T",
+      dodontDesc: "Let's keep Komodo and its nature sustainable for future generations.",
+      doTitle: "DO",
+      doList: [
+        "Keep a safe distance from Komodo",
+        "Follow ranger's instructions",
+        "Take your trash back",
+        "Use eco-friendly sunscreen",
+        "Respect local culture"
+      ],
+      dontTitle: "DON'T",
+      dontList: [
+        "Do not feed the Komodo",
+        "Do not make noise or disturbances",
+        "Do not damage plants & reefs",
+        "Do not litter",
+        "Do not smoke in the national park area"
+      ]
+    },
+    faq: {
+      title1: "Questions",
+      title2: "About Our Tour",
+      desc: "Find quick answers for your trip with EcoKomodo.",
+      data: [
+        { question: "When is the best time to visit Komodo National Park?", answer: "The best time is during the dry season, between May and October." },
+        { question: "Is it safe to interact directly with Komodo dragons?", answer: "It is safe as long as you follow the rules and are accompanied by a professional Ranger." },
+        { question: "How to be an eco-friendly tourist here?", answer: "Bring your own water bottle (tumbler) to reduce plastic waste. Use 'Reef Safe' sunscreen." },
+        { question: "Can children and the elderly join this tour?", answer: "Certainly! We suggest choosing shorter trekking routes on Rinca Island." },
+        { question: "Does the package price include the National Park entrance fee?", answer: "The prices are estimated costs per person. Official National Park entrance tickets are usually paid separately." }
+      ]
     }
   }
 };

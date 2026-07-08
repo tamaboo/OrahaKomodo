@@ -12,16 +12,19 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMounted, setIsMounted] = useState(false);
   
   // AMBIL STATE & FUNGSI TOGGLE BAHASA GLOBAL
   const { lang, toggleLang } = useLanguage();
 
   // Efek tracking scroll untuk background dan active section
   useEffect(() => {
+    setIsMounted(true); // Menandakan komponen sudah di-render di client/browser
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Logika Active Section
+      // Logika Active Section (Scrollspy)
       const sections = ['home', 'sejarah', 'destinasi', 'peta', 'paketwisata'];
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -47,7 +50,9 @@ export default function Navbar() {
     }
   };
 
-  const menuItems = lang === 'id' 
+  // Daftar menu dwibahasa (Aman karena dijalankan setelah mounted atau fallback ke 'id')
+  const currentLang = isMounted ? lang : 'id';
+  const menuItems = currentLang === 'id' 
     ? [
         { label: 'Beranda', id: 'home' },
         { label: 'Sejarah', id: 'sejarah' },
@@ -97,26 +102,32 @@ export default function Navbar() {
           <div className="h-5 w-[1px] bg-slate-700"></div>
 
           {/* TOGGLE BAHASA DENGAN BENDERA */}
-          <button
-            onClick={toggleLang}
-            className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 hover:bg-emerald-600 hover:border-emerald-500 px-4 py-2 rounded-full text-white text-xs font-bold tracking-widest transition-all duration-300 shadow-md cursor-pointer"
-          >
-            <ReactCountryFlag 
-              countryCode={lang === 'id' ? "ID" : "GB"} 
-              svg 
-              style={{ width: '1.2em', height: '1.2em', borderRadius: '2px' }}
-            />
-            <span className="uppercase">{lang === 'id' ? 'ID' : 'EN'}</span>
-          </button>
+          {/* suppressHydrationWarning ditambahkan agar kebal dari ekstensi browser */}
+          {isMounted && (
+            <button
+              suppressHydrationWarning
+              onClick={toggleLang}
+              className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 hover:bg-emerald-600 hover:border-emerald-500 px-4 py-2 rounded-full text-white text-xs font-bold tracking-widest transition-all duration-300 shadow-md cursor-pointer"
+            >
+              <ReactCountryFlag 
+                countryCode={lang === 'id' ? "ID" : "GB"} 
+                svg 
+                style={{ width: '1.2em', height: '1.2em', borderRadius: '2px' }}
+              />
+              <span className="uppercase">{lang === 'id' ? 'ID' : 'EN'}</span>
+            </button>
+          )}
         </div>
 
         {/* MENU MOBILE */}
         <div className="lg:hidden flex items-center gap-4">
-          <button onClick={toggleLang} className="flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-full text-white text-xs font-bold">
-             <ReactCountryFlag countryCode={lang === 'id' ? "ID" : "GB"} svg style={{ width: '1.2em', height: '1.2em' }} />
-             <span>{lang === 'id' ? 'ID' : 'EN'}</span>
-          </button>
-          <button onClick={() => setIsOpen(!isOpen)} className="text-slate-300 hover:text-white">
+          {isMounted && (
+            <button suppressHydrationWarning onClick={toggleLang} className="flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-full text-white text-xs font-bold">
+               <ReactCountryFlag countryCode={lang === 'id' ? "ID" : "GB"} svg style={{ width: '1.2em', height: '1.2em' }} />
+               <span>{lang === 'id' ? 'ID' : 'EN'}</span>
+            </button>
+          )}
+          <button suppressHydrationWarning onClick={() => setIsOpen(!isOpen)} className="text-slate-300 hover:text-white">
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>

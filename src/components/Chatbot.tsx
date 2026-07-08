@@ -1,415 +1,296 @@
-'use client';
-import { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Sparkles, ChevronUp } from 'lucide-react';
+"use client";
 
-// DESTINASI DATA - 12 destinasi
-const destinasiData = [
-  {
-    id: 1,
-    nama: 'Pulau Padar',
-    desc: 'Lanskap savana berbukit dengan panorama tiga teluk melengkung yang ikonik.',
-    longDesc: 'Pulau Padar menawarkan panorama tiga teluk dengan warna pasir berbeda: putih, hitam, dan merah muda. Pendakian ikonik di sini memberikan pemandangan matahari terbit terbaik di kawasan Komodo.',
-    lokasi: 'Taman Nasional Komodo, NTT',
-    harga: 'Rp 150.000 / orang',
-    rating: 4.9,
-  },
-  {
-    id: 2,
-    nama: 'Pink Beach',
-    desc: 'Pantai dengan pasir merah muda langka, campuran koral merah dan pasir putih.',
-    longDesc: 'Warna pink berasal dari Foraminifera, organisme mikroskopis. Airnya yang jernih sangat cocok untuk snorkeling santai.',
-    lokasi: 'Pulau Komodo, TN Komodo',
-    harga: 'Rp 50.000 / orang',
-    rating: 4.8,
-  },
-  {
-    id: 3,
-    nama: 'Loh Liang',
-    desc: 'Habitat asli kadal purba raksasa dengan jalur trekking menantang.',
-    longDesc: 'Gerbang utama melihat Komodo di alam liar. Dipandu ranger profesional, Anda akan menjelajahi savana dan hutan kering.',
-    lokasi: 'Pulau Komodo, TN Komodo',
-    harga: 'Rp 250.000 / orang',
-    rating: 4.7,
-  },
-  {
-    id: 4,
-    nama: 'Manta Point',
-    desc: 'Spot snorkeling dan diving terbaik bersama pari manta raksasa.',
-    longDesc: 'Lokasi berkumpulnya pari Manta untuk mencari makan. Sensasi berenang bersama satwa anggun ini tidak terlupakan.',
-    lokasi: 'Selat Lintah, TN Komodo',
-    harga: 'Rp 200.000 / orang',
-    rating: 4.9,
-  },
-  {
-    id: 5,
-    nama: 'Taka Makassar',
-    desc: 'Gundukan pasir timbul berbentuk bulan sabit di tengah lautan jernih.',
-    longDesc: 'Pulau pasir mungil di tengah laut biru. Hanya terlihat saat surut, sempurna untuk foto estetik.',
-    lokasi: 'Dekat Manta Point, TN Komodo',
-    harga: 'Rp 100.000 / orang',
-    rating: 4.6,
-  },
-  {
-    id: 6,
-    nama: 'Pulau Kelor',
-    desc: 'Spot pendakian singkat yang cukup menanjak dengan view lautan.',
-    longDesc: 'Destinasi pertama dari Labuan Bajo. Trekkingnya singkat tapi menantang, memberikan view laut yang luar biasa.',
-    lokasi: 'Kab. Manggarai Barat, NTT',
-    harga: 'Rp 50.000 / orang',
-    rating: 4.7,
-  },
-  {
-    id: 7,
-    nama: 'Pulau Kalong',
-    desc: 'Saksikan ribuan kelelawar terbang menutupi langit senja.',
-    longDesc: 'Hutan mangrove rumah bagi ribuan kalong. Saat sunset, mereka terbang berhamburan menciptakan siluet epik.',
-    lokasi: 'Taman Nasional Komodo',
-    harga: 'Rp 100.000 / orang',
-    rating: 4.8,
-  },
-  {
-    id: 8,
-    nama: 'Pulau Rinca',
-    desc: 'Alternatif utama mengamati Komodo dengan jarak lebih dekat.',
-    longDesc: 'Pulau ini memiliki populasi Komodo yang cukup padat di savana terbuka. Sangat mudah dilihat oleh pengunjung.',
-    lokasi: 'Taman Nasional Komodo',
-    harga: 'Rp 250.000 / orang',
-    rating: 4.7,
-  },
-  {
-    id: 9,
-    nama: 'Batu Bolong',
-    desc: 'Surganya penyelam dengan terumbu karang warna-warni.',
-    longDesc: 'Situs diving kelas dunia. Arus yang kuat menopang ekosistem ikan pelagis dan terumbu yang sangat sehat.',
-    lokasi: 'Selat Lintah, TN Komodo',
-    harga: 'Rp 300.000 / orang',
-    rating: 4.9,
-  },
-  {
-    id: 10,
-    nama: 'Pulau Kanawa',
-    desc: 'Pulau tenang dengan dermaga gayu cantik dan bintang laut.',
-    longDesc: 'Perairan jernih, hiu karang kecil, dan bintang laut merah. Sempurna untuk relaksasi total.',
-    lokasi: 'Perbatasan TN Komodo',
-    harga: 'Rp 100.000 / orang',
-    rating: 4.6,
-  },
-  {
-    id: 11,
-    nama: 'Gili Laba',
-    desc: 'Bukit eksotis dengan pemandangan lautan biru memukau.',
-    longDesc: 'Panoramanya sangat fotogenik, terutama saat musim kemarau di mana bukit berubah menjadi warna keemasan.',
-    lokasi: 'Utara TN Komodo',
-    harga: 'Rp 50.000 / orang',
-    rating: 4.8,
-  },
-  {
-    id: 12,
-    nama: 'Pulau Sebayur',
-    desc: 'Lokasi snorkeling tenang dan basecamp banyak kapal Phinisi.',
-    longDesc: 'Tempat pelarian yang sempurna. Arusnya tenang, karang terjaga, dan merupakan lokasi favorit kapal Phinisi untuk bermalam.',
-    lokasi: 'Dekat Labuan Bajo',
-    harga: 'Rp 75.000 / orang',
-    rating: 4.5,
-  },
-];
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Send, Compass, Ticket, Briefcase, Shield, MapPin, Fish, Camera, Phone, ShieldCheck, MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
 
-// EXTENDED KNOWLEDGE BASE
-const botKnowledge: any = {
-  umum: [
-    // Greetings
-    { k: ['halo', 'hai', 'pagi', 'siang', 'malam', 'hola', 'apa kabar'], a: 'Halo! 👋 Saya EcoKomodo Bot, asisten digital siap membantu Anda. Ada yang ingin Anda tanyakan tentang Taman Nasional Komodo? 😊' },
-    
-    // Tentang Website
-    { k: ['web ini', 'website ini', 'tentang website', 'siapa kalian', 'apa ini', 'ecokomodo apa'], a: `🌐 **Tentang EcoKomodo**\n\nEcoKomodo adalah platform wisata digital untuk menjelajahi keindahan Taman Nasional Komodo. Kami menyediakan:\n\n✨ Informasi lengkap 12 destinasi wisata\n✨ Paket tour yang menarik & terjangkau\n✨ Tips & panduan traveling profesional\n✨ Layanan booking mudah & cepat\n✨ Koneksi langsung dengan guide berpengalaman\n✨ Dukungan pelanggan 24/7\n\nMisi kami adalah membuat wisatawan dapat menjelajahi Komodo dengan nyaman, aman, dan berkesan!` },
-    
-    // Sejarah Komodo
-    { k: ['sejarah komodo', 'komodo history', 'asal komodo', 'dari mana komodo', 'evolusi komodo', 'kapan komodo ada'], a: `🦎 **Sejarah Komodo - Kadal Purba Raksasa**\n\n📚 **Asal Mula:**\nKomodo adalah spesies kadal terbesar di dunia yang hidup di Pulau Komodo, Rinca, dan Flores. Mereka diduga berasal dari Australia melalui migrasi ribuan tahun lalu.\n\n🌍 **Evolusi:**\nKomodo merupakan sisa-sisa Megalania (kadal raksasa purba) yang punah. Mereka beradaptasi dengan ekosistem unik kepulauan Nusa Tenggara selama jutaan tahun.\n\n📏 **Ukuran:**\n• Rata-rata panjang: 2.5-3 meter\n• Berat: 70-90 kg\n• Rekor terbesar: 3.6 meter, 166 kg!\n\n🐚 **Usia & Reproduksi:**\n• Hidup hingga 50 tahun di alam liar\n• Dewasa pada 8-9 tahun\n• Reproduksi lambat (ancaman kepunahan)\n\n🏛️ **Perlindungan:**\n• Taman Nasional Komodo didirikan 1980\n• UNESCO World Heritage Site 1991\n• Populasi sekarang: ~3.000 ekor\n• Status: Vulnerable (Rentan Punah)` },
-    
-    // Destinasi Umum
-    { k: ['destinasi', 'tempat wisata', 'tempat menarik', 'ke mana', 'pilihan destinasi'], a: `🏝️ **12 Destinasi Populer:**\n\n1. 🏔️ Pulau Padar - Panorama 3 teluk (⭐4.9) - Rp 150.000\n2. 🌸 Pink Beach - Pasir pink unik (⭐4.8) - Rp 50.000\n3. 🦎 Loh Liang - Habitat Komodo (⭐4.7) - Rp 250.000\n4. 🌊 Manta Point - Diving Pari Manta (⭐4.9) - Rp 200.000\n5. ✨ Taka Makassar - Pulau pasir (⭐4.6) - Rp 100.000\n6. 🦇 Pulau Kalong - Kelelawar senja (⭐4.8) - Rp 100.000\n7. 🦎 Pulau Rinca - Komodo mudah dilihat (⭐4.7) - Rp 250.000\n8. ⛰️ Batu Bolong - Diving kelas dunia (⭐4.9) - Rp 300.000\n9. 🌅 Pulau Kelor - Trekking pendek (⭐4.7) - Rp 50.000\n10. 🌴 Gili Laba - Bukit eksotis (⭐4.8) - Rp 50.000\n11. 🤿 Pulau Kanawa - Snorkeling tenang (⭐4.6) - Rp 100.000\n12. 🏖️ Pulau Sebayur - Relaksasi sempurna (⭐4.5) - Rp 75.000\n\nKetik nama destinasi untuk info detail!` },
-    
-    // Harga
-    { k: ['harga', 'berapa harga', 'biaya', 'tarif', 'berapa'], a: `💰 **Daftar Harga Destinasi**\n\n🏔️ Pulau Padar: Rp 150.000/orang (⭐4.9)\n🌸 Pink Beach: Rp 50.000/orang (⭐4.8)\n🦎 Loh Liang: Rp 250.000/orang (⭐4.7)\n🌊 Manta Point: Rp 200.000/orang (⭐4.9)\n✨ Taka Makassar: Rp 100.000/orang (⭐4.6)\n🦇 Pulau Kalong: Rp 100.000/orang (⭐4.8)\n🦎 Pulau Rinca: Rp 250.000/orang (⭐4.7)\n⛰️ Batu Bolong: Rp 300.000/orang (⭐4.9)\n🌅 Pulau Kelor: Rp 50.000/orang (⭐4.7)\n🌴 Gili Laba: Rp 50.000/orang (⭐4.8)\n🤿 Pulau Kanawa: Rp 100.000/orang (⭐4.6)\n🏖️ Pulau Sebayur: Rp 75.000/orang (⭐4.5)\n\n📝 Catatan:\n• Harga per orang, minimal 2 orang\n• Include guide & asuransi\n• Group >10 orang dapat diskon!` },
-    
-    // Booking
-    { k: ['booking', 'pesan', 'reservasi', 'order', 'ingin booking'], a: `📅 **Proses Booking**\n\n✅ Langkah-langkah:\n1. Pilih destinasi & tanggal\n2. Tentukan jumlah peserta\n3. Isi data pribadi Anda\n4. Pilih paket yang sesuai\n5. Konfirmasi pembayaran\n6. Terima e-ticket & detail jadwal\n\n💳 Metode Pembayaran:\n• Transfer Bank\n• E-wallet (GoPay, OVO, Dana)\n• Kartu Kredit\n\n📞 Hubungi kami untuk detail lebih lanjut!` },
-    
-    // Cuaca & Musim
-    { k: ['cuaca', 'kapan terbaik', 'musim', 'waktu terbaik', 'iklim'], a: `🌤️ **Musim & Cuaca Komodo**\n\n☀️ **Musim Kemarau (Apr-Nov):**\n✓ Cuaca cerah & stabil\n✓ Visibilitas air optimal\n✓ Ideal untuk semua aktivitas\n✓ Peak season (booking lebih sulit)\n\n🌧️ **Musim Hujan (Des-Mar):**\n⚠️ Cuaca tak menentu\n⚠️ Visibilitas air menurun\n⚠️ Beberapa tour mungkin batal\n✓ Harga lebih murah\n\n🎯 **Waktu TERBAIK:**\n👑 Juli - September:\n• Cuaca paling stabil\n• Visibilitas air terbaik\n• Manta ray paling banyak\n• Already termasuk high season` },
-    
-    // Packing
-    { k: ['barang bawaan', 'harus bawa', 'perlengkapan', 'packing', 'apa bawa apa'], a: `🎒 **Packing Checklist Essentials**\n\n👕 Pakaian:\n✓ T-shirt/kaos (breathable)\n✓ Long pants & shorts\n✓ Jaket ringan\n✓ Sandal & sepatu trekking\n\n☀️ Perlengkapan:\n✓ Sunscreen SPF 50+\n✓ Topi/cap & sunglasses UV\n✓ Handuk kecil\n\n💧 Kesehatan:\n✓ Air minum (2-3 liter)\n✓ Snack/energy bar\n✓ Obat pribadi\n✓ Plester & first aid\n\n📸 Elektronik:\n✓ Kamera waterproof\n✓ Power bank\n✓ Ponsel + charger\n\n⚠️ Jangan lupa:\n✓ ID/Passport\n✓ Travel insurance\n✓ Cash cadangan` },
-    
-    // Keselamatan
-    { k: ['keselamatan', 'aman', 'tips', 'etika', 'larangan', 'aturan', 'bahaya'], a: `🛡️ **Tips Keselamatan & Aturan**\n\n🦎 Menghadapi Komodo:\n⚠️ JANGAN: Pukul, manjat, atau dekati\n✅ LAKUKAN: Ikuti instruksi ranger\n✅ Jarak aman: Minimal 3-4 meter\n✅ Bergerak perlahan & tenang\n\n🌊 Aktivitas Air:\n✓ Gunakan life jacket\n✓ Jangan berenang sendirian\n✓ Dengarkan instruksi guide\n\n🏔️ Trekking:\n✓ Pakai sepatu trekking\n✓ Bawa air cukup\n✓ Jangan terpisah dari grup\n\n☀️ Cuaca:\n✓ Perlindung dari sinar matahari\n✓ Hindari dehidrasi\n✓ Istirahat jika kelelahan\n\n🚨 Darurat:\n📞 Hotline 24/7 kami siap membantu!` },
-    
-    // Diving & Snorkeling
-    { k: ['diving', 'snorkeling', 'selam', 'kualitas air', 'ikan'], a: `🤿 **Diving & Snorkeling di Komodo**\n\n✨ Spot Terbaik:\n🌊 Manta Point - Diving kelas dunia\n⛰️ Batu Bolong - Terumbu karang indah\n🐠 Taka Makassar - Ikan pelagis\n🏝️ Pulau Kanawa - Relaksasi\n\n📊 Level Kesulitan:\n• Beginner: Taka Makassar, Kanawa\n• Intermediate: Manta Point\n• Advanced: Batu Bolong\n\n🐠 Fauna Laut:\n• Pari Manta Raksasa (musiman)\n• Ikan Paus (jarang)\n• Hiu karang & Terumbu karang sehat\n• Nudibranch warna-warni\n\n⏱️ Durasi: 1-2 jam per session\n👥 Rasio Guide: 1:4 (max)\n\n💡 Tips: Belajar di tempat aman dulu!` },
-    
-    // Fotografi
-    { k: ['foto', 'fotografi', 'kamera', 'tips foto', 'hasil terbaik'], a: `📸 **Tips Fotografi di Komodo**\n\n🌅 Best Time:\n• Sunrise: 5:30-7:00 pagi\n• Golden hour: 16:00-18:00 sore\n• Moonrise: Malam cerah\n\n🎯 Subject Favorit:\n📷 Padar: Panorama 3 teluk\n🌊 Manta Point: Underwater shots\n🌸 Pink Beach: Pasir pink\n🌅 Kalong: Ribuan kelelawar\n\n📱 Gear:\n✓ DSLR/Mirrorless (optional)\n✓ Ponsel flagship (cukup bagus!)\n✓ Underwater case\n✓ ND filter (optional)\n\n🎨 Editing Tips:\n• Tingkatkan saturation warna\n• Kuatkan contrast\n• Reduce haze untuk air jernih\n• Brightness sesuaikan\n\n✅ Permission:\n• Tanyakan sebelum foto\n• Respect privacy pengunjung\n• Jangan ganggu satwa liar` },
-    
-    // Kontak
-    { k: ['kontak', 'hubungi', 'nomor', 'telepon', 'whatsapp', 'email', 'alamat'], a: `📞 **Hubungi Kami**\n\n☎️ Customer Service:\n📱 WhatsApp: +62-xxx-xxxx-xxxx\n📞 Telepon: +62-xxx-xxxx-xxxx\n📧 Email: info@ecokomodo.com\n🕐 Jam: 08:00-22:00 (setiap hari)\n\n🗺️ Kantor:\nLabuan Bajo, Manggarai Barat\nNusa Tenggara Timur, Indonesia\n\n💬 Chat Support:\n✓ Tersedia di website 24/7\n✓ Response time: <5 menit\n✓ Bahasa: Indonesia & English\n\n✉️ Kirimkan pertanyaan via email untuk:\n• Grup besar (>20 orang)\n• Corporate events\n• Custom itinerary\n\n🔔 Follow Media Sosial:\nInstagram: @ecokomodo\nFacebook: EcoKomodo Official` },
-    
-    // Default fallback
-    { k: [], a: '🤔 Maaf, saya kurang paham pertanyaan Anda. Coba tanya tentang:\n• "destinasi" - lihat semua tempat wisata\n• "harga" - daftar lengkap biaya\n• "booking" - cara pesan tour\n• "sejarah komodo" - info kadal\n• "keselamatan" - tips aman\n• "kontak" - hubungi kami\n\nAda yang lain? Ketik pertanyaanmu!' }
-  ]
-};
+// IMPORT CONTEXT DAN DATA DESTINASI
+import { useLanguage } from '@/components/LanguageContext';
+import { destinasiData } from '@/data/destinasi';
 
-export default function Chatbot() {
+interface Message {
+  sender: 'bot' | 'user';
+  text: string;
+}
+
+export default function EcoKomodoBot() {
+  const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<{role: string, text: string}[]>([
-    { role: 'ai', text: '👋 Halo! Saya asisten AI EcoKomodo. Saya siap membantu Anda merencanakan petualangan impian ke Taman Nasional Komodo. Ada yang bisa saya bantu?' }
-  ]);
-  const [step, setStep] = useState<'idle' | 'booking'>('idle');
-  const [bookingData, setBookingData] = useState<any>({});
-  const [isTyping, setIsTyping] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [showQuickActions, setShowQuickActions] = useState(true);
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  useEffect(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), [messages]);
+  
+  // AMBIL STATE BAHASA SECARA GLOBAL
+  const { lang } = useLanguage();
 
-  const quickActions = [
-    { label: '📅 Booking', action: 'booking' },
-    { label: '💰 Harga', action: 'harga destinasi' },
-    { label: '🎒 Packing', action: 'packing list' },
-    { label: '🛡️ Keselamatan', action: 'keselamatan' },
-    { label: '🦎 Komodo', action: 'sejarah komodo' },
-    { label: '🤿 Diving', action: 'diving snorkeling' },
-    { label: '📸 Foto', action: 'fotografi' },
-    { label: '📞 Kontak', action: 'hubungi kami' }
-  ];
-
-  const findAnswer = (userInput: string): string => {
-    const lowerInput = userInput.toLowerCase().trim();
-    
-    // Cari di knowledge base
-    for (const item of botKnowledge.umum) {
-      if (item.k.some((k: string) => lowerInput.includes(k))) {
-        return item.a;
-      }
-    }
-    
-    // Cek apakah ada destinasi yang cocok
-    for (const destinasi of destinasiData) {
-      const namaLower = destinasi.nama.toLowerCase();
-      if (lowerInput.includes(namaLower) || lowerInput.includes(namaLower.split(' ')[0])) {
-        return `🏝️ **${destinasi.nama}**\n\n${destinasi.longDesc}\n\n📍 Lokasi: ${destinasi.lokasi}\n💰 Harga: ${destinasi.harga}\n⭐ Rating: ${destinasi.rating}/5\n\n✨ Sempurna untuk fotografi, trekking, dan petualangan!\n\nIngin booking? Ketik "booking" 📅`;
-      }
-    }
-    
-    return botKnowledge.umum[botKnowledge.umum.length - 1].a;
-  };
-
-  const handleBooking = (text: string) => {
-    let reply = "";
-
-    if (!bookingData.nama) {
-      setBookingData({ ...bookingData, nama: text });
-      reply = `Senang bertemu, ${text}! 😊\n\nPulau mana yang ingin Anda kunjungi?\n\n1. 🏔️ Padar\n2. 🌸 Pink Beach\n3. 🦎 Loh Liang\n4. 🌊 Manta Point\n5. ✨ Taka Makassar\n6. 🦇 Kalong\n7. 🦎 Rinca\n8. ⛰️ Batu Bolong\n9. 🌅 Kelor\n10. 🌴 Gili Laba\n11. 🤿 Kanawa\n12. 🏖️ Sebayur`;
-    } else if (!bookingData.destinasi) {
-      setBookingData({ ...bookingData, destinasi: text });
-      reply = `Bagus! ${text} adalah pilihan excellent! 🏝️\n\nUntuk berapa orang?`;
-    } else if (!bookingData.orang) {
-      setBookingData({ ...bookingData, orang: text });
-      reply = `Oke, untuk ${text} orang. 👥\n\nTanggal berapa? (format: DD/MM/YYYY)`;
+  // ==========================================
+  // FUNGSI PENGECEK WAKTU UNTUK SAPAAN (GREETING)
+  // ==========================================
+  const getTimeGreeting = (language: string) => {
+    const hour = new Date().getHours();
+    if (language === 'id') {
+      if (hour >= 4 && hour < 11) return "Selamat Pagi";
+      if (hour >= 11 && hour < 15) return "Selamat Siang";
+      if (hour >= 15 && hour < 18) return "Selamat Sore";
+      return "Selamat Malam";
     } else {
-      const bookingCode = `EKO-${Math.floor(Math.random()*100000)}`;
-      reply = `✅ **KONFIRMASI BOOKING**\n\n📋 Detail Booking:\n• Nama: ${bookingData.nama}\n• Destinasi: ${bookingData.destinasi}\n• Jumlah: ${bookingData.orang} orang\n• Tanggal: ${text}\n\n🎫 Kode Booking: ${bookingCode}\n\n📧 Cek email untuk detail lebih lanjut!\n☎️ Hubungi: hello@ecokomodo.id\n\nTerima kasih telah memilih EcoKomodo! 🙏`;
-      setStep('idle');
-      setBookingData({});
+      if (hour >= 4 && hour < 12) return "Good Morning";
+      if (hour >= 12 && hour < 17) return "Good Afternoon";
+      return "Good Evening";
     }
-    return reply;
   };
 
-  const sendMessage = () => {
-    if (!input.trim()) return;
-    const userMsg = input;
-    setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
-    setInput('');
-    setIsTyping(true);
-
-    setTimeout(() => {
-      let reply = "";
-      
-      if (userMsg.toLowerCase().includes('booking')) {
-        setStep('booking');
-        reply = "📅 Baik! Mari kita mulai proses booking. Siapa nama Anda?";
-      } else if (step === 'booking') {
-        reply = handleBooking(userMsg);
-      } else {
-        reply = findAnswer(userMsg);
+  // ==========================================
+  // DATA BAHASA KHUSUS CHATBOT
+  // ==========================================
+  const botData = {
+    id: {
+      title: "EcoKomodo Bot",
+      status: "Always online",
+      greeting: "Saya asisten AI EcoKomodo. Saya siap membantu Anda merencanakan petualangan impian ke Taman Nasional Komodo.\n\nAda yang bisa saya bantu?",
+      inputPlaceholder: "Ketik pertanyaan Anda...",
+      trustBadge: "Informasi dari sumber resmi & terpercaya",
+      quickActionLabel: "Quick Actions",
+      actions: [
+        { id: 'booking', label: 'Booking', icon: Compass },
+        { id: 'harga', label: 'Harga', icon: Ticket },
+        { id: 'packing', label: 'Packing', icon: Briefcase },
+        { id: 'keselamatan', label: 'Keselamatan', icon: Shield },
+        { id: 'destinasi', label: '10 Destinasi', icon: MapPin },
+        { id: 'diving', label: 'Diving', icon: Fish },
+        { id: 'fotospot', label: 'Foto Spot', icon: Camera },
+        { id: 'kontak', label: 'Kontak', icon: Phone }
+      ],
+      responses: {
+        harga: `Tentu! Berikut adalah daftar resmi harga tiket/trip untuk 10 destinasi unggulan kami:\n\n${destinasiData.map((d, i) => `${i+1}. 🏝️ **${d.nama}**\n   💰 ${d.harga}`).join('\n\n')}\n\n*Catatan: Harga di atas merupakan estimasi per orang dan sudah termasuk akses konservasi.*`,
+        kontak: "📍 **Hubungi Kami:**\n\n🏢 **Alamat Kantor:**\nJl. Marina Labuan Bajo No. 8, Manggarai Barat, Nusa Tenggara Timur, Indonesia 86554\n\n📞 **WhatsApp:** +62 812-3456-7890\n✉️ **Email:** info@orahakomodo.id\n🌐 **Website:** www.orahakomodo.id\n\n⏰ **Jam Operasional:** Senin - Minggu (08:00 - 18:00 WITA)",
+        destinasi: `🌍 **Daftar 10 Destinasi Eksotis ORAHA:**\n\n${destinasiData.map((d, i) => `${i+1}. **${d.nama}** (${d.lokasi})\n   ⭐ Rating: ${d.rating}/5.0`).join('\n\n')}\n\n💡 *Ketik nama destinasi atau ketik 'Harga' untuk melihat rincian biayanya.*`,
+        packing: `🎒 **Daftar Packing Wajib ke Komodo:**\n\n👕 **Pakaian:** Kaos berbahan dingin/breathable, celana pendek pantai, celana panjang trekking, jaket angin ringan.\n👟 **Alas Kaki:** Sepatu trekking/hiking dengan grip kuat & sandal air/pantai.\n🏖️ **Perlengkapan:** Sunscreen SPF 50+, kacamata hitam, topi lebar, handuk cepat kering.\n📱 **Elektronik:** Kamera underwater (GoPro/HP dengan waterproof case), Powerbank, memori cadangan.\n💊 **Obat-obatan:** Antiseptik, plester, obat anti-mabuk laut, dan vitamin.`,
+        keselamatan: `🛡️ **Aturan & Tips Keselamatan:**\n\n1. 🐉 **Jarak Aman Satwa:** Selalu patuhi Ranger resmi dan jaga jarak minimal 5 meter dari Komodo liar.\n2. 🚫 **Larangan Mandiri:** Dilarang berjalan sendirian keluar dari jalur trekking savana yang ditentukan.\n3. ☀️ **Cegah Dehidrasi:** Suhu di Padar dan Rinca sangat terik, selalu bawa minimal 1-2 liter air minum.\n4. 🌊 **Keselamatan Laut:** Wajib mengenakan Life Jacket selama kapal berlayar atau saat arus snorkeling kencang.`,
+        diving: `🤿 **Informasi Menyelam (Diving):**\n\nTaman Nasional Komodo adalah surga bawah laut kelas dunia! Spot diving terbaik kami ada di **Batu Bolong**, **Manta Point**, dan **Taka Makasar**.\n\nAnda dapat bertemu langsung dengan Pari Manta raksasa, penyu laut, dan terumbu karang warna-warni yang padat.\n\n💰 **Estimasi Paket Diving:** Mulai dari IDR 600.000 / orang (Fun Dive).`,
+        fotospot: `📷 **Rekomendasi Spot Foto Paling Ikonik:**\n\n1. 🌅 **Puncak Pulau Padar:** Pemandangan 3 lekukan pantai berpasir Putih, Hitam, dan Pink sekaligus.\n2. 💖 **Pink Beach:** Kontras air laut pirus jernih dengan pasir merah muda alami.\n3. 🦇 **Pulau Kalong:** Siluet ribuan kelelawar terbang saat matahari terbenam (Golden Hour).\n4. 🐉 **Loh Liang & Rinca:** Berfoto dengan latar belakang satwa Komodo (dibantu oleh Ranger).`,
+        booking: `📅 **Cara Mudah Melakukan Pemesanan (Booking):**\n\n1. **Melalui Website:** Klik menu **'Paket Wisata'** di navigasi atas untuk melihat jadwal trip terbuka.\n2. **Melalui WhatsApp:** Hubungi tim reservasi kami secara cepat di nomor **+62 812-3456-7890**.\n\n✨ *Kami menyediakan paket Open Trip (harian/2D1N/3D2N) hingga Private Charter Phinisi.*`,
+        kondom: `🐉 **Fakta Menarik Satwa Komodo (Varanus komodoensis):**\n\n• Merupakan kadal terbesar di dunia yang tersisa dari zaman purba.\n• Dapat tumbuh hingga panjang 3 meter dengan berat mencapai 100 kg.\n• Memiliki penciuman sangat tajam (hingga jarak 4-9 km menggunakan lidahnya).\n• Hanya dapat ditemukan secara alami di 5 pulau di Nusa Tenggara Timur, Indonesia!`,
+        fungsi: "ORAHA adalah portal ekowisata resmi yang dirancang untuk membantu Anda menjelajahi keajaiban Pulau Komodo dengan aman, nyaman, dan tetap menjunjung tinggi prinsip pariwisata berkelanjutan (sustainable tourism).",
+        default: "Maaf, saya belum memahami instruksi tersebut. Silakan pilih tombol menu di atas atau coba ketik: **'Harga'**, **'10 Destinasi'**, **'Kontak'**, **'Booking'**, atau **'Diving'**."
       }
-      
-      setMessages(prev => [...prev, { role: 'ai', text: reply }]);
-      setIsTyping(false);
-    }, 600);
+    },
+    en: {
+      title: "EcoKomodo Bot",
+      status: "Always online",
+      greeting: "I am the EcoKomodo AI assistant. I am ready to help you plan your dream adventure to Komodo National Park.\n\nHow can I help you?",
+      inputPlaceholder: "Type your question...",
+      trustBadge: "Information from official & trusted sources",
+      quickActionLabel: "Quick Actions",
+      actions: [
+        { id: 'booking', label: 'Booking', icon: Compass },
+        { id: 'harga', label: 'Prices', icon: Ticket },
+        { id: 'packing', label: 'Packing', icon: Briefcase },
+        { id: 'keselamatan', label: 'Safety', icon: Shield },
+        { id: 'destinasi', label: '10 Spots', icon: MapPin },
+        { id: 'diving', label: 'Diving', icon: Fish },
+        { id: 'fotospot', label: 'Photo Spots', icon: Camera },
+        { id: 'kontak', label: 'Contact', icon: Phone }
+      ],
+      responses: {
+        harga: `Sure! Here is the official price list for our top 10 destinations:\n\n${destinasiData.map((d, i) => `${i+1}. 🏝️ **${d.nama}**\n   💰 ${d.harga.replace('orang', 'person')}`).join('\n\n')}\n\n*Note: Prices above are estimated per person and include conservation access.*`,
+        kontak: "📍 **Contact Us:**\n\n🏢 **Office Address:**\nJl. Marina Labuan Bajo No. 8, West Manggarai, East Nusa Tenggara, Indonesia 86554\n\n📞 **WhatsApp:** +62 812-3456-7890\n✉️ **Email:** info@orahakomodo.id\n🌐 **Website:** www.orahakomodo.id\n\n⏰ **Operating Hours:** Monday - Sunday (08:00 - 18:00 WITA)",
+        destinasi: `🌍 **List of 10 Exotic ORAHA Destinations:**\n\n${destinasiData.map((d, i) => `${i+1}. **${d.nama}** (${d.lokasi})\n   ⭐ Rating: ${d.rating}/5.0`).join('\n\n')}\n\n💡 *Type a destination name or type 'Prices' to see the cost details.*`,
+        packing: `🎒 **Essential Packing List for Komodo:**\n\n👕 **Clothing:** Breathable light T-shirts, beach shorts, trekking pants, light windbreaker jacket.\n👟 **Footwear:** Hiking/trekking shoes with strong grip & water/beach sandals.\n🏖️ **Gear:** Sunscreen SPF 50+, sunglasses, wide-brim hat, quick-dry towel.\n📱 **Electronics:** Underwater camera (GoPro/phone with waterproof case), Powerbank, spare memory.\n💊 **Medical:** Antiseptic, bandages, seasickness pills, and personal vitamins.`,
+        keselamatan: `🛡️ **Safety Rules & Tips:**\n\n1. 🐉 **Safe Distance:** Always follow official Rangers and keep a minimum distance of 5 meters from wild Komodos.\n2. 🚫 **No Wandering:** Walking alone off the designated savanna trekking trails is strictly prohibited.\n3. ☀️ **Prevent Dehydration:** Temperatures in Padar and Rinca are extreme, always carry at least 1-2 liters of drinking water.\n4. 🌊 **Sea Safety:** Mandatory wearing of Life Jackets while sailing or during strong current snorkeling.`,
+        diving: `🤿 **Diving Information:**\n\nKomodo National Park is a world-class underwater paradise! Our top diving spots are located at **Batu Bolong**, **Manta Point**, and **Taka Makasar**.\n\nYou can interact directly with giant Manta Rays, sea turtles, and dense colorful coral reefs.\n\n💰 **Diving Package Estimate:** Starts from IDR 600,000 / person (Fun Dive).`,
+        fotospot: `📷 **Most Iconic Photo Spot Recommendations:**\n\n1. 🌅 **Padar Island Peak:** Legendary view of 3 crescent beaches with White, Black, and Pink sands simultaneously.\n2. 💖 **Pink Beach:** Stunning contrast of turquoise clear water with natural pink sand.\n3. 🦇 **Kalong Island:** Silhouettes of thousands of fruit bats flying during sunset (Golden Hour).\n4. 🐉 **Loh Liang & Rinca:** Take pictures with wild Komodo dragons in the background (assisted by Rangers).`,
+        booking: `📅 **How to Make a Booking Easily:**\n\n1. **Via Website:** Click the **'Tour Packages'** menu in the top navigation to see available trip schedules.\n2. **Via WhatsApp:** Contact our reservation team quickly at **+62 812-3456-7890**.\n\n✨ *We provide Open Trips (daily/2D1N/3D2N) to Private Phinisi Charters.*`,
+        kondom: `🐉 **Interesting Facts About Komodo Dragons (Varanus komodoensis):**\n\n• The world's largest living lizard remaining from prehistoric times.\n• Can grow up to 3 meters in length and weigh up to 100 kg.\n• Possesses a very sharp sense of smell (up to 4-9 km away using their forked tongue).\n• Can only be found naturally on 5 islands in East Nusa Tenggara, Indonesia!`,
+        fungsi: "ORAHA is the official ecotourism portal designed to help you explore the wonders of Komodo Island safely and comfortably, while upholding sustainable tourism principles.",
+        default: "Sorry, I didn't quite catch that. Please choose a menu button above or try typing: **'Prices'**, **'10 Spots'**, **'Contact'**, **'Booking'**, or **'Diving'**."
+      }
+    }
   };
 
-  const handleQuickAction = (action: string) => {
-    setInput(action);
+  const t = botData[lang];
+  const [messages, setMessages] = useState<Message[]>([
+    { sender: 'bot', text: `${getTimeGreeting(lang)}! 👋 ${t.greeting}` }
+  ]);
+
+  // Reset chat & sapaan waktu ketika bahasa diubah di navbar
+  useEffect(() => {
+    setMessages([{ sender: 'bot', text: `${getTimeGreeting(lang)}! 👋 ${t.greeting}` }]);
+  }, [lang]);
+
+  // Auto-scroll ke pesan terbaru
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isOpen]);
+
+  // ==========================================
+  // LOGIKA PENCARIAN KATA KUNCI CHATBOT
+  // ==========================================
+  const handleSendMessage = (text: string) => {
+    if (!text.trim()) return;
+
+    setMessages(prev => [...prev, { sender: 'user', text }]);
+    setInputValue('');
+
     setTimeout(() => {
-      sendMessage();
-    }, 100);
+      const lowerText = text.toLowerCase();
+      let botReply = t.responses.default;
+
+      // 1. CEK KATA SAPAAN / GREETING DARI USER
+      if (
+        lowerText === 'hai' || lowerText === 'halo' || lowerText === 'hallo' || 
+        lowerText === 'hello' || lowerText === 'hi' || lowerText === 'hey' || 
+        lowerText.includes('pagi') || lowerText.includes('siang') || 
+        lowerText.includes('sore') || lowerText.includes('malam') ||
+        lowerText.includes('morning') || lowerText.includes('afternoon') || 
+        lowerText.includes('evening')
+      ) {
+        const currentGreet = getTimeGreeting(lang);
+        botReply = lang === 'id'
+          ? `${currentGreet}! 👋 Halo, senang bertemu dengan Anda! Ada yang bisa saya bantu terkait wisata di Taman Nasional Komodo? Silakan pilih menu di bawah atau ketik pertanyaan Anda.`
+          : `${currentGreet}! 👋 Hello, nice to meet you! How can I assist you with your trip to Komodo National Park? Please choose a quick action below or type your question.`;
+      
+      // 2. CEK KATA KUNCI LAINNYA
+      } else if (lowerText.includes('harga') || lowerText.includes('price') || lowerText.includes('biaya') || lowerText.includes('cost') || lowerText.includes('tiket')) {
+        botReply = t.responses.harga;
+      } else if (lowerText.includes('kontak') || lowerText.includes('contact') || lowerText.includes('hubungi') || lowerText.includes('whatsapp') || lowerText.includes('wa') || lowerText.includes('alamat')) {
+        botReply = t.responses.kontak;
+      } else if (lowerText.includes('destinasi') || lowerText.includes('tempat') || lowerText.includes('spot') || lowerText.includes('location') || lowerText.includes('destination') || lowerText.includes('wisata') || lowerText.includes('10')) {
+        botReply = t.responses.destinasi;
+      } else if (lowerText.includes('fungsi') || lowerText.includes('apa itu') || lowerText.includes('about') || lowerText.includes('oraha') || lowerText.includes('web')) {
+        botReply = t.responses.fungsi;
+      } else if (lowerText.includes('booking') || lowerText.includes('pesan') || lowerText.includes('reserve') || lowerText.includes('order') || lowerText.includes('daftar')) {
+        botReply = t.responses.booking;
+      } else if (lowerText.includes('packing') || lowerText.includes('packed') || lowerText.includes('bawa') || lowerText.includes('barang') || lowerText.includes('persiapan')) {
+        botReply = t.responses.packing;
+      } else if (lowerText.includes('keselamatan') || lowerText.includes('safety') || lowerText.includes('aman') || lowerText.includes('danger') || lowerText.includes('tips')) {
+        botReply = t.responses.keselamatan;
+      } else if (lowerText.includes('diving') || lowerText.includes('dive') || lowerText.includes('menyelam') || lowerText.includes('underwater') || lowerText.includes('snorkeling') || lowerText.includes('manta')) {
+        botReply = t.responses.diving;
+      } else if (lowerText.includes('foto') || lowerText.includes('photo') || lowerText.includes('picture') || lowerText.includes('kamera') || lowerText.includes('ig') || lowerText.includes('instagram')) {
+        botReply = t.responses.fotospot;
+      } else if (lowerText.includes('komodo') || lowerText.includes('dragon') || lowerText.includes('hewan') || lowerText.includes('kadal')) {
+        botReply = t.responses.kondom;
+      }
+
+      setMessages(prev => [...prev, { sender: 'bot', text: botReply }]);
+    }, 500);
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100]">
-      {isOpen ? (
-        <div className="w-96 h-[650px] bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/30 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 p-4 flex justify-between items-center text-white font-bold shadow-lg">
-            <div className="flex items-center gap-2">
-              <div className="bg-white/20 p-2 rounded-full">
-                <Sparkles size={20} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold">EcoKomodo Bot</p>
-                <p className="text-xs opacity-80">Always online</p>
+    <>
+      {/* TOMBOL FLOATING CHAT */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed bottom-6 right-6 z-[1000] w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 hover:from-emerald-400 hover:to-emerald-600 text-white rounded-full flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.5)] border border-yellow-400/40 transition-all duration-300 hover:scale-110 cursor-pointer"
+      >
+        {isOpen ? <X size={24} /> : <MessageSquare size={24} className="animate-pulse" />}
+      </button>
+
+      {/* JENDELA CHATBOT (POSISI DITURUNKAN KE bottom-20) */}
+      <div className={`fixed bottom-20 right-6 z-[999] w-[350px] md:w-[390px] h-[550px] bg-[#070d14] border border-slate-800/80 rounded-3xl shadow-[0_15px_50px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+        
+        {/* HEADER DENGAN LOGO YANG TELAH DIPERBAIKI */}
+        <div className="flex items-center justify-between p-4 border-b border-slate-800/80 bg-[#09121a] backdrop-blur-md">
+          <div className="flex items-center gap-3">
+            {/* LINGKARAN LOGO TANPA TERPOTONG BERLEBIH */}
+            <div className="relative w-11 h-11 rounded-full border-2 border-yellow-500/80 overflow-hidden bg-[#050810] flex items-center justify-center p-1 shadow-[0_0_12px_rgba(234,179,8,0.25)]">
+              <img 
+                src="/Home/logo.png" 
+                alt="ORAHA Logo" 
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }} 
+              />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-[#09121a] rounded-full"></div>
+            </div>
+            <div>
+              <h3 className="text-white font-serif font-bold text-sm tracking-wide leading-tight">{t.title}</h3>
+              <p className="text-emerald-400 text-[10px] font-semibold tracking-wider uppercase mt-0.5">{t.status}</p>
+            </div>
+          </div>
+          <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-yellow-400 p-1.5 rounded-full hover:bg-slate-800/50 transition-colors cursor-pointer">
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* AREA CHAT HISTORY */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-gradient-to-b from-[#070d14] via-[#091018] to-[#070d14] hide-scrollbar">
+          {messages.map((msg, idx) => (
+            <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[85%] p-3.5 text-xs md:text-sm rounded-2xl whitespace-pre-wrap leading-relaxed ${
+                msg.sender === 'user' 
+                  ? 'bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-tr-sm shadow-md' 
+                  : 'bg-[#0e1621] border border-slate-700/80 text-slate-200 rounded-tl-sm shadow-lg'
+              }`}>
+                {msg.text}
               </div>
             </div>
-            <button 
-              onClick={() => setIsOpen(false)} 
-              className="hover:bg-white/20 p-2 rounded-full transition"
-            >
-              <X size={20}/>
-            </button>
-          </div>
-          
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-            {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}>
-                <div className={`max-w-xs px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
-                  m.role === 'user' 
-                    ? 'bg-emerald-600 text-white rounded-br-none shadow-md' 
-                    : 'bg-slate-800 text-slate-100 rounded-bl-none shadow-md border border-slate-700'
-                }`}>
-                  {m.text}
-                </div>
-              </div>
-            ))}
-            {isTyping && (
-              <div className="flex items-center gap-2 text-emerald-400">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{animationDelay: '0.4s'}}></div>
-                </div>
-                <span className="text-xs">Sedang mengetik...</span>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
 
-          {/* Quick Actions dengan Minimize */}
-          {showQuickActions && (
-            <div className="bg-slate-900/50 border-t border-slate-700 p-3 max-h-48 overflow-y-auto">
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-xs text-slate-400 font-semibold">💡 Quick Actions</p>
-                <button
-                  onClick={() => setShowQuickActions(false)}
-                  className="text-slate-400 hover:text-white transition p-1"
-                  title="Minimize"
-                >
-                  <ChevronUp size={16} />
-                </button>
-              </div>
+        {/* AREA QUICK ACTIONS */}
+        <div className="border-t border-slate-800/80 bg-[#09121a]/95">
+          <button 
+            onClick={() => setShowQuickActions(!showQuickActions)}
+            className="w-full flex items-center justify-between py-2.5 px-4 hover:bg-slate-800/30 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-2 flex-1">
+              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-yellow-500/40"></div>
+              <span className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest">{t.quickActionLabel}</span>
+              <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-yellow-500/40"></div>
+            </div>
+            <div className="ml-2 text-yellow-400">
+              {showQuickActions ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+            </div>
+          </button>
+
+          {/* GRID TOMBOL QUICK ACTION */}
+          <div className={`overflow-hidden transition-all duration-300 ${showQuickActions ? 'max-h-[200px]' : 'max-h-0'}`}>
+            <div className="px-4 pb-3">
               <div className="grid grid-cols-2 gap-2">
-                {quickActions.map((btn) => (
+                {t.actions.map((action) => (
                   <button 
-                    key={btn.label}
-                    onClick={() => handleQuickAction(btn.action)} 
-                    className="bg-slate-800 hover:bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 border border-slate-700 hover:border-emerald-500"
+                    key={action.id}
+                    onClick={() => handleSendMessage(action.label)}
+                    className="flex items-center gap-2 border border-slate-700/80 bg-[#111c27] hover:bg-emerald-950/60 hover:border-emerald-500/80 text-slate-300 hover:text-white text-[11px] font-medium py-2 px-3 rounded-xl transition-all duration-200 shadow-sm cursor-pointer"
                   >
-                    {btn.label}
+                    <action.icon size={13} className="text-emerald-400 shrink-0" />
+                    <span className="truncate">{action.label}</span>
                   </button>
                 ))}
               </div>
             </div>
-          )}
-
-          {/* Minimize Button */}
-          {!showQuickActions && (
-            <div className="bg-slate-900/50 border-t border-slate-700 p-2 flex justify-between">
-              <p className="text-xs text-slate-400">Quick Actions Minimized</p>
-              <button
-                onClick={() => setShowQuickActions(true)}
-                className="text-slate-400 hover:text-white transition p-1"
-                title="Show"
-              >
-                ▼
-              </button>
-            </div>
-          )}
-          
-          {/* Input */}
-          <div className="p-4 bg-slate-950 border-t border-slate-800 flex gap-2">
-            <input 
-              value={input} 
-              onChange={(e) => setInput(e.target.value)} 
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-                  sendMessage();
-                }
-              }} 
-              className="flex-1 bg-slate-800 hover:bg-slate-700 focus:bg-slate-700 px-4 py-3 rounded-full text-sm outline-none text-white placeholder-slate-500 transition border border-slate-700 focus:border-emerald-500" 
-              placeholder="Ketik pertanyaan..." 
-            />
-            <button 
-              onClick={sendMessage} 
-              className="bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 p-3 rounded-full text-white transition-all duration-300 shadow-lg hover:shadow-emerald-500/50"
-            >
-              <Send size={18}/>
-            </button>
           </div>
         </div>
-      ) : (
-        <button 
-          onClick={() => setIsOpen(true)} 
-          className="bg-gradient-to-br from-emerald-600 to-teal-500 p-5 rounded-full shadow-2xl hover:shadow-emerald-500/50 animate-pulse hover:animate-none transition-all duration-300 hover:scale-110"
-        >
-          <MessageSquare size={28} className="text-white" />
-        </button>
-      )}
 
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(15, 23, 42, 0.5);
-          border-radius: 10px;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(16, 185, 129, 0.5);
-          border-radius: 10px;
-        }
-        
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(16, 185, 129, 0.8);
-        }
-      `}</style>
-    </div>
+        {/* AREA INPUT CHAT */}
+        <div className="p-3.5 border-t border-slate-800/80 bg-[#060a10]">
+          <div className="relative flex items-center">
+            <input 
+              type="text" 
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
+              placeholder={t.inputPlaceholder}
+              className="w-full bg-[#0d1620] border border-slate-700/80 rounded-full py-2.5 pl-4 pr-12 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 transition-colors shadow-inner"
+            />
+            <button 
+              onClick={() => handleSendMessage(inputValue)}
+              className="absolute right-1 w-8 h-8 flex items-center justify-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 rounded-full text-white transition-all shadow-md hover:scale-105 cursor-pointer"
+            >
+              <Send size={13} className="-ml-0.5" />
+            </button>
+          </div>
+          
+          <div className="flex items-center justify-center gap-1.5 mt-2.5 text-slate-500">
+            <ShieldCheck size={11} className="text-emerald-500/80" />
+            <span className="text-[9px] tracking-wide">{t.trustBadge}</span>
+          </div>
+        </div>
+
+      </div>
+    </>
   );
 }

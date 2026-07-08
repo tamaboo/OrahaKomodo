@@ -1,135 +1,175 @@
 "use client";
 
 import React from 'react';
-import { MapPin, ShieldAlert, HeartHandshake, Sparkles, Trash2, CameraOff, Flame, AlertCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Map, Mountain, Waves, MapPin, Ban } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 
-// 1. IMPORT CONTEXT BAHASA DAN DICTIONARY
+// IMPORT CONTEXT BAHASA DAN DICTIONARY
 import { useLanguage } from '@/components/LanguageContext';
 import { dict } from '@/data/dictionary';
 
+// DATA 10 TITIK PIN DESTINASI (Koordinat disesuaikan ke tengah / mengikuti pulau)
 const mapLocations = [
-  { id: 1, name: 'Pulau Padar', desc: 'Pemandangan 3 teluk ikonis.', img: '/Peta/padar.jpg', top: '38%', left: '32%', position: 'bottom' },
-  { id: 2, name: 'Pink Beach', desc: 'Pasir merah muda langka.', img: '/Peta/beach.jpg', top: '68%', left: '48%', position: 'top' },
-  { id: 3, name: 'Loh Liang', desc: 'Habitat asli Naga Purba.', img: '/Peta/liang.jpg', top: '42%', left: '65%', position: 'bottom' },
-  { id: 4, name: 'Manta Point', desc: 'Spot snorkeling pari manta.', img: '/Peta/manta.jpg', top: '58%', left: '38%', position: 'top' },
-  { id: 5, name: 'Taka Makassar', desc: 'Gundukan pasir bulan sabit.', img: '/Peta/taka.jpg', top: '48%', left: '52%', position: 'top' },
-  { id: 6, name: 'Pulau Kelor', desc: 'Pendakian singkat view laut.', img: '/Peta/kelor.jpg', top: '78%', left: '28%', position: 'top' },
-  { id: 7, name: 'Pulau Kalong', desc: 'Ribuan kelelawar senja.', img: '/Peta/kalong.jpg', top: '28%', left: '58%', position: 'bottom' },
-  { id: 8, name: 'Pulau Rinca', desc: 'Habitat komodo yang padat.', img: '/Peta/rinca.jpg', top: '55%', left: '76%', position: 'top' },
-  { id: 9, name: 'Batu Bolong', desc: 'Surganya para penyelam.', img: '/Peta/bolong.jpg', top: '24%', left: '42%', position: 'bottom' },
-  { id: 10, name: 'Pulau Kanawa', desc: 'Dermaga kayu yang tenang.', img: '/Peta/kanawa.jpg', top: '22%', left: '78%', position: 'bottom' },
+  { id: 1, name: 'Loh Liang', desc: 'Pusat observasi satwa komodo liar.', img: '/Destinasi/Loh Liang/0.jpeg', top: '35%', left: '42%', position: 'bottom' },
+  { id: 2, name: 'Pink Beach', desc: 'Pantai eksotis pasir merah muda.', img: '/Destinasi/Pink Beach/0.jpg', top: '45%', left: '38%', position: 'bottom' },
+  { id: 3, name: 'Pulau Padar', desc: 'Pemandangan 3 teluk pantai unik.', img: '/Destinasi/Pulau Padar/0.jpg', top: '55%', left: '45%', position: 'bottom' },
+  { id: 4, name: 'Batu Bolong', desc: 'Situs menyelam kelas dunia.', img: '/Destinasi/Batu Bolong/0.jpeg', top: '40%', left: '48%', position: 'top' },
+  { id: 5, name: 'Taka Makasar', desc: 'Pulau pasir timbul air pirus jernih.', img: '/Destinasi/Taka Makasar/0.jpeg', top: '42%', left: '52%', position: 'top' },
+  { id: 6, name: 'Manta Point', desc: 'Bercengkerama dengan Ikan Pari Manta.', img: '/Destinasi/Manta Point/0.jpg', top: '46%', left: '55%', position: 'bottom' },
+  { id: 7, name: 'Pulau Rinca', desc: 'Habitat asli komodo & trekking savana.', img: '/Destinasi/Pulau Rinca/0.jpeg', top: '65%', left: '50%', position: 'top' },
+  { id: 8, name: 'Pulau Kalong', desc: 'Ribuan kelelawar di langit senja.', img: '/Destinasi/Pulau Kalong/0.jpeg', top: '68%', left: '54%', position: 'bottom' },
+  { id: 9, name: 'Pulau Kelor', desc: 'Perbukitan hijau & panorama laut.', img: '/Destinasi/Pulau Kelor/0.jpg', top: '50%', left: '62%', position: 'top' },
+  { id: 10, name: 'Pulau Kanawa', desc: 'Gerbang surga bawah laut.', img: '/Destinasi/Pulau Kanawa/0.jpg', top: '40%', left: '65%', position: 'top' },
 ];
 
 export default function Peta() {
-  // 2. PANGGIL STATE BAHASA AKTIF & DICTIONARY
   const { lang } = useLanguage();
-  const t = dict[lang].peta;
+  const t = dict[lang]?.peta;
+  
+  if (!t || !t.stats) return null; 
+
+  const statIcons = [Map, Mountain, Waves];
 
   return (
-    <section id="peta" className="py-24 bg-[#050810] text-white relative overflow-hidden">
-      {/* Background Glow Halus */}
-      <div className="absolute top-1/3 -left-40 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-10 -right-40 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div className="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
-        
-        {/* HEADER SECTION */}
-        <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16 space-y-4">
-            <span className="text-emerald-400 font-bold uppercase tracking-[0.25em] text-xs md:text-sm block">
-              {t.subtitle}
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight">
-              {t.title1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-yellow-300">{t.title2}</span>
-            </h2>
-            <p className="text-slate-300 text-sm md:text-base leading-relaxed font-medium">
-              {t.desc}
-            </p>
-          </div>
-        </ScrollReveal>
-
-        {/* 2 COLUMNS LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+    <section 
+      id="peta" 
+      className="relative w-full min-h-[850px] lg:min-h-[950px] py-24 flex items-center bg-[#050810] overflow-hidden"
+    >
+      
+      {/* ========================================== */}
+      {/* LAYER 1: PETA & PIN */}
+      {/* ========================================== */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] md:w-[110%] lg:w-full max-w-[1600px] z-0 pointer-events-auto flex items-center justify-center">
+        <div className="relative w-full h-auto">
+          <img 
+            src="/Peta/bg.png" 
+            alt="Peta Komodo" 
+            className="w-full h-auto object-contain opacity-90 drop-shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+          />
           
-          {/* KOLOM KIRI: PETA INTERAKTIF */}
-          <div className="lg:col-span-7 w-full">
-            <ScrollReveal delay={200}>
-              <div className="relative w-full aspect-[4/3] md:aspect-[16/10] group/map">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden border border-slate-800/80 shadow-[0_0_40px_rgba(0,0,0,0.8)] z-0">
-                  <img src="/Peta/peta.jpg" alt="Peta Taman Nasional Komodo" className="w-full h-full object-cover opacity-100 transition-transform duration-1000 ease-out group-hover/map:scale-[1.03]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050810]/80 via-transparent to-transparent pointer-events-none"></div>
+          {/* TITIK PETA INTERAKTIF */}
+          {mapLocations.map((loc) => (
+            <div key={loc.id} className="absolute group z-20 -translate-x-1/2 -translate-y-1/2" style={{ top: loc.top, left: loc.left }}>
+              <div className="relative flex items-center justify-center cursor-pointer">
+                <div className="absolute w-5 h-5 md:w-8 md:h-8 bg-emerald-400/40 rounded-full animate-ping"></div>
+                <div className="relative z-10 bg-emerald-600 border-2 border-emerald-300 text-white p-1.5 md:p-2.5 rounded-full shadow-[0_0_20px_rgba(16,185,129,0.8)] group-hover:bg-yellow-400 group-hover:border-white group-hover:text-slate-950 group-hover:scale-125 transition-all duration-300">
+                  <MapPin className="fill-current w-3 h-3 md:w-4 md:h-4" />
                 </div>
+              </div>
 
-                {/* LAYER PIN & TOOLTIP */}
-                <div className="absolute inset-0 z-20">
-                  {mapLocations.map((loc) => (
-                    <div key={loc.id} className="absolute group z-10 -translate-x-1/2 -translate-y-1/2" style={{ top: loc.top, left: loc.left }}>
-                      <div className="relative flex items-center justify-center cursor-pointer">
-                        <div className="absolute w-5 h-5 md:w-7 md:h-7 bg-emerald-400/40 rounded-full animate-ping"></div>
-                        <div className="relative z-10 bg-emerald-600 border border-white/40 text-white p-1.5 md:p-2 rounded-full shadow-lg group-hover:bg-yellow-500 group-hover:text-slate-950 group-hover:scale-125 transition-all duration-300">
-                          <MapPin className="fill-current w-3 h-3 md:w-4 md:h-4" />
-                        </div>
+              {/* Tooltip Deskripsi Destinasi */}
+              <div className={`absolute left-1/2 -translate-x-1/2 w-44 md:w-52 bg-slate-900/95 backdrop-blur-md border border-slate-700/80 rounded-2xl shadow-2xl p-2.5 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none z-50 ${loc.position === 'bottom' ? 'top-full mt-3 md:mt-4 origin-top' : 'bottom-full mb-3 md:mb-4 origin-bottom'}`}>
+                <img src={loc.img} alt={loc.name} className="w-full h-20 md:h-24 object-cover rounded-xl mb-2.5 border border-slate-800" />
+                <h4 className="font-serif font-bold text-white text-xs md:text-sm leading-snug">{loc.name}</h4>
+                <p className="text-[10px] md:text-xs text-slate-300 leading-relaxed mt-1 font-medium">{loc.desc}</p>
+                <div className={`absolute left-1/2 -translate-x-1/2 border-[6px] md:border-[8px] border-transparent ${loc.position === 'bottom' ? 'bottom-full border-b-slate-900' : 'top-full border-t-slate-900'}`}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="absolute inset-0 bg-black/30 lg:bg-black/10 z-0 pointer-events-none"></div>
+
+      {/* ========================================== */}
+      {/* LAYER 2: UI (STATISTIK KIRI & DO/DONTS KANAN) */}
+      {/* ========================================== */}
+      <div className="w-full relative z-30 pointer-events-none">
+        
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-10 w-full">
+          
+          {/* KOLOM KIRI: TEKS & STATISTIK */}
+          <div className="w-full lg:w-auto lg:max-w-md flex flex-col justify-center space-y-10 pl-6 md:pl-12 lg:pl-16 xl:pl-24 pointer-events-auto">
+            <ScrollReveal>
+              <div className="space-y-4">
+                <span className="text-emerald-400 font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs block drop-shadow-md">
+                  {t.subtitle}
+                </span>
+                <h2 className="text-4xl md:text-5xl lg:text-[54px] font-serif font-bold text-white leading-tight drop-shadow-lg">
+                  {t.title1} <br />
+                  <span className="text-emerald-400">{t.title2}</span>
+                </h2>
+                <p className="text-slate-200 text-sm md:text-base leading-relaxed max-w-sm drop-shadow-md">
+                  {t.desc}
+                </p>
+              </div>
+            </ScrollReveal>
+
+            {/* KARTU STATISTIK */}
+            <div className="space-y-4 max-w-xs">
+              {t.stats.map((stat: any, index: number) => {
+                const Icon = statIcons[index] || Map;
+                return (
+                  <ScrollReveal key={index} delay={index * 100}>
+                    <div className="flex items-center gap-5 p-5 rounded-[1.25rem] bg-[#0a1118]/80 backdrop-blur-xl border border-slate-700/60 hover:border-emerald-500/50 transition-colors group shadow-2xl">
+                      <div className="text-emerald-400 group-hover:scale-110 transition-transform">
+                        <Icon size={34} strokeWidth={1.5} />
                       </div>
-                      <div className={`absolute left-1/2 -translate-x-1/2 w-40 md:w-48 bg-slate-900/95 backdrop-blur-md border border-slate-700/80 rounded-2xl shadow-2xl p-2.5 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none z-50 ${loc.position === 'bottom' ? 'top-full mt-2.5 md:mt-3 origin-top' : 'bottom-full mb-2.5 md:mb-3 origin-bottom'}`}>
-                        <img src={loc.img} alt={loc.name} className="w-full h-16 md:h-20 object-cover rounded-xl mb-2 border border-slate-800" />
-                        <h4 className="font-serif font-bold text-white text-xs md:text-sm leading-snug">{loc.name}</h4>
-                        <p className="text-[9px] md:text-[11px] text-slate-300 leading-normal mt-0.5 font-medium">{loc.desc}</p>
-                        <div className={`absolute left-1/2 -translate-x-1/2 border-[5px] md:border-[6px] border-transparent ${loc.position === 'bottom' ? 'bottom-full border-b-slate-900' : 'top-full border-t-slate-900'}`}></div>
+                      <div className="flex flex-col">
+                        <span className="text-3xl font-serif font-bold text-white leading-none">
+                          {stat.num}
+                        </span>
+                        <span className="text-[10px] md:text-xs text-slate-400 font-semibold tracking-widest uppercase mt-1.5">
+                          {stat.label}
+                        </span>
                       </div>
                     </div>
-                  ))}
-                  <div className="absolute bottom-3 left-3 md:bottom-4 md:left-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 md:px-4 md:py-2 rounded-xl text-[10px] md:text-xs text-slate-300 flex items-center gap-2 pointer-events-none">
-                    <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>{t.locations}</span>
-                  </div>
+                  </ScrollReveal>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* KOLOM KANAN: DO & DON'TS BOX */}
+          <div className="w-full lg:w-auto lg:max-w-[28rem] flex justify-end pointer-events-auto mt-10 lg:mt-0">
+            <ScrollReveal delay={300} className="w-full">
+              <div className="bg-[#0b121a]/85 backdrop-blur-2xl border border-slate-700/80 rounded-none md:rounded-l-[2rem] p-7 md:p-9 shadow-2xl w-full">
+                
+                <h3 className="text-yellow-500 text-xl md:text-2xl font-serif font-bold mb-2 tracking-wide">
+                  {t.dodontTitle}
+                </h3>
+                <p className="text-slate-300 text-xs md:text-sm leading-relaxed mb-8">
+                  {t.dodontDesc}
+                </p>
+
+                {/* DO SECTION */}
+                <div className="mb-8">
+                  <h4 className="text-emerald-400 font-bold text-sm mb-4 uppercase tracking-widest inline-block">
+                    {t.doTitle}
+                  </h4>
+                  <ul className="space-y-4">
+                    {t.doList.map((item: string, idx: number) => (
+                      <li key={idx} className="flex items-center gap-3.5">
+                        <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
+                        <span className="text-slate-200 text-xs md:text-sm font-medium">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+
+                {/* DON'T SECTION */}
+                <div>
+                  <h4 className="text-rose-400 font-bold text-sm mb-4 uppercase tracking-widest inline-block">
+                    {t.dontTitle}
+                  </h4>
+                  <ul className="space-y-4">
+                    {t.dontList.map((item: string, idx: number) => (
+                      <li key={idx} className="flex items-center gap-3.5">
+                        {idx === t.dontList.length - 1 ? (
+                          <Ban size={18} className="text-rose-500 shrink-0" />
+                        ) : (
+                          <XCircle size={18} className="text-rose-500 shrink-0" />
+                        )}
+                        <span className="text-slate-200 text-xs md:text-sm font-medium">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
               </div>
             </ScrollReveal>
           </div>
 
-          {/* KOLOM KANAN: PERATURAN & AJAKAN */}
-          <div className="lg:col-span-5 w-full space-y-6 flex flex-col justify-between h-full mt-4 lg:mt-0">
-            <ScrollReveal delay={300}>
-              <div className="bg-[#0b1121]/90 border border-slate-800/80 rounded-3xl p-5 md:p-7 shadow-xl space-y-5">
-                <div className="flex items-center gap-2.5 border-b border-slate-800 pb-4">
-                  <div className="p-2 md:p-2.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400">
-                    <ShieldAlert size={20} className="md:w-[22px] md:h-[22px]" />
-                  </div>
-                  <div>
-                    <h3 className="font-serif font-bold text-base md:text-xl text-white">{t.ruleTitle}</h3>
-                    <p className="text-[10px] md:text-xs text-slate-400 mt-0.5">{t.ruleSubtitle}</p>
-                  </div>
-                </div>
-                <div className="space-y-3 md:space-y-4">
-                  {t.rules.map((rule, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-3 rounded-2xl bg-slate-900/50 border border-slate-800/60 hover:border-slate-700 transition-colors">
-                      <div className="p-1.5 md:p-2 bg-slate-800/80 rounded-xl mt-0.5 shrink-0">
-                         {idx === 0 ? <AlertCircle className="text-amber-400" size={20} /> : idx === 1 ? <Trash2 className="text-rose-400" size={20} /> : idx === 2 ? <CameraOff className="text-blue-400" size={20} /> : <Flame className="text-purple-400" size={20} />}
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="text-xs md:text-sm font-bold text-slate-100">{rule.title}</h4>
-                        <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed font-medium">{rule.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={400}>
-              <div className="relative bg-gradient-to-br from-emerald-900/40 via-[#0b1121] to-slate-900 border border-emerald-500/30 rounded-3xl p-5 md:p-7 shadow-[0_0_30px_rgba(16,185,129,0.1)] overflow-hidden group">
-                <div className="relative z-10 flex items-start gap-3 md:gap-4">
-                  <div className="p-2.5 md:p-3 bg-emerald-500/20 border border-emerald-500/30 rounded-2xl text-emerald-400 shrink-0"><HeartHandshake size={24} /></div>
-                  <div className="space-y-1.5 md:space-y-2">
-                    <div className="flex items-center gap-1.5 text-yellow-400 text-[9px] md:text-xs font-bold uppercase tracking-wider"><Sparkles size={12} /><span>{t.ctaBadge}</span></div>
-                    <h3 className="font-serif font-bold text-base md:text-lg text-white leading-snug">{t.ctaTitle}</h3>
-                    <p className="text-[10px] md:text-xs text-slate-300 leading-relaxed font-normal">{t.ctaDesc}</p>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          </div>
         </div>
       </div>
     </section>

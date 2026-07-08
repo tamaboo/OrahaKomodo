@@ -150,6 +150,7 @@ export default function Destinasi() {
                             </div>
                             
                             <button 
+                              suppressHydrationWarning // <--- TAMBAHKAN INI DI SINI
                               onClick={(e) => {
                                 e.stopPropagation(); 
                                 setSelectedDest(dest);
