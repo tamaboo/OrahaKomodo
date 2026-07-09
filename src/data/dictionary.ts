@@ -1,6 +1,6 @@
-// File: src/data/dictionary.ts
+export type Language = 'id' | 'en';
 
-export const dict = {
+export const dict: any = {
   id: {
     hero: {
       subtitle: "W O N D E R F U L",
@@ -45,28 +45,64 @@ export const dict = {
       title2: "Archipelago",
       desc: "Temukan lokasi destinasi terbaik dan rencanakan perjalananmu dengan bijak.",
       stats: [
-        { num: "29", label: "Destinasi Menakjubkan" },
+        { num: "10", label: "Destinasi Menakjubkan" },
         { num: "18", label: "Pulau Eksotis" },
         { num: "7", label: "Spot Snorkeling Terbaik" }
       ],
       dodontTitle: "DO & DON'T",
       dodontDesc: "Mari menjaga Komodo dan alamnya tetap lestari untuk generasi mendatang.",
       doTitle: "DO",
-      doList: [
-        "Jaga jarak aman dari Komodo",
-        "Ikuti instruksi ranger",
-        "Bawa kembali sampahmu",
-        "Gunakan tabir surya ramah lingkungan",
-        "Hormati budaya lokal"
-      ],
+      doList: ["Jaga jarak aman dari Komodo", "Ikuti instruksi ranger", "Bawa kembali sampahmu", "Gunakan tabir surya ramah lingkungan", "Hormati budaya lokal"],
       dontTitle: "DON'T",
-      dontList: [
-        "Jangan memberi makan Komodo",
-        "Jangan berisik atau membuat keributan",
-        "Jangan merusak tanaman & terumbu",
-        "Jangan buang sampah sembarangan",
-        "Jangan merokok di area taman nasional"
-      ]
+      dontList: ["Jangan memberi makan Komodo", "Jangan berisik atau membuat keributan", "Jangan merusak tanaman & terumbu", "Jangan buang sampah sembarangan", "Jangan merokok di area taman nasional"]
+    },
+    paket: {
+      badge: "Paket Wisata",
+      title1: "Pilih",
+      title2: "Petualanganmu",
+      desc: "Temukan pengalaman tak terlupakan menjelajahi keindahan alam liar Komodo dan sekitarnya.",
+      popular: "Populer",
+      promo: "Spesial Promo",
+      perPax: "/ org",
+      contactUs: "Hubungi Kami",
+      seeDetail: "Lihat Detail",
+      modalBooking: "Detail Booking",
+      modalCustom: "Custom Route",
+      modalReguler: "Reguler Trip",
+      selectDate: "Pilih Tanggal",
+      dateRequired: "* Wajib memilih tanggal keberangkatan terlebih dahulu",
+      paxCount: "Jumlah Penumpang",
+      paxUnit: "Orang",
+      pricePerPax: "Harga per orang",
+      totalPayment: "Total Pembayaran",
+      toPayment: "Lanjut ke Pembayaran",
+      toWA: "Hubungi WhatsApp",
+      payMethod: "Metode Pembayaran",
+      payDesc: "Selesaikan pembayaran untuk mengamankan tiket Anda.",
+      back: "Kembali",
+      bill: "Total Tagihan",
+      payNow: "Bayar Sekarang",
+      changeMethod: "Ganti Metode Pembayaran",
+      finishPay: "Selesaikan Pembayaran",
+      payLimit: "Batas waktu pembayaran:",
+      hour: "jam",
+      minute: "menit",
+      method: "Metode",
+      copyVA: "Nomor Virtual Account BCA",
+      copied: "Nomor berhasil disalin!",
+      vaInst: "Gunakan m-BCA, KlikBCA, atau ATM BCA untuk melakukan transfer.",
+      walletNum: "Nomor E-Wallet (GoPay/OVO/DANA)",
+      walletInst: "Lakukan transfer ke nomor atas nama ORAHA ECOTOURISM.",
+      scanQR: "Scan QRIS Di Bawah Ini",
+      qrInst: "Mendukung GoPay, OVO, DANA, ShopeePay, dan Mobile Banking.",
+      iHavePaid: "Saya Sudah Bayar",
+      paySuccess: "Pembayaran Berhasil!",
+      paySuccessDesc: "Terima kasih telah memesan petualangan bersama ORAHA. E-Ticket dan detail perjalanan telah dikirim.",
+      tripPackage: "Paket Trip:",
+      date: "Tanggal:",
+      passenger: "Penumpang:",
+      totalPaid: "Total Dibayar:",
+      close: "Selesai & Tutup"
     },
     faq: {
       title1: "Pertanyaan",
@@ -78,6 +114,23 @@ export const dict = {
         { question: "Bagaimana cara menjadi turis yang ramah lingkungan?", answer: "Bawa botol minum sendiri (tumbler) untuk mengurangi sampah plastik. Gunakan tabir surya (sunscreen) berlabel 'Reef Safe' agar tidak merusak terumbu karang." },
         { question: "Apakah anak-anak dan lansia bisa ikut tur ini?", answer: "Tentu bisa! Kami sarankan memilih rute trekking pendek di Pulau Rinca atau menikmati Pink Beach dan Pulau Kanawa." },
         { question: "Apakah harga paket sudah termasuk tiket masuk Taman Nasional?", answer: "Harga pada aplikasi EcoKomodo adalah estimasi biaya per orang untuk aktivitas tersebut. Tiket masuk resmi Taman Nasional (PNBP) biasanya dibayarkan terpisah saat tiba di gerbang pelabuhan." }
+      ]
+    },
+    testimoni: {
+      title1: "Jejak",
+      title2: "Kebaikan",
+      visitor: "Pengunjung",
+      data: [
+        { id: 1, nama: 'Budi S', teks: 'Luar biasa!', avatar: 'https://i.pravatar.cc/150?img=11' },
+        { id: 2, nama: 'Sarah W', teks: 'Ekowisata nyata.', avatar: 'https://i.pravatar.cc/150?img=5' },
+        { id: 3, nama: 'Michael D', teks: 'Sunrise terbaik.', avatar: 'https://i.pravatar.cc/150?img=8' },
+        { id: 4, nama: 'Andi P', teks: 'Sangat mengedukasi.', avatar: 'https://i.pravatar.cc/150?img=12' },
+        { id: 5, nama: 'Dewi R', teks: 'Habitat terjaga.', avatar: 'https://i.pravatar.cc/150?img=9' },
+        { id: 6, nama: 'Rizky M', teks: 'Konten edukasi.', avatar: 'https://i.pravatar.cc/150?img=15' },
+        { id: 7, nama: 'Fajar A', teks: 'Pengalaman unik.', avatar: 'https://i.pravatar.cc/150?img=33' },
+        { id: 8, nama: 'Siska L', teks: 'Wajib dikunjungi.', avatar: 'https://i.pravatar.cc/150?img=47' },
+        { id: 9, nama: 'Bagus K', teks: 'Ramah lingkungan.', avatar: 'https://i.pravatar.cc/150?img=59' },
+        { id: 10, nama: 'Putri Y', teks: 'Sangat berkesan.', avatar: 'https://i.pravatar.cc/150?img=20' }
       ]
     }
   },
@@ -125,28 +178,64 @@ export const dict = {
       title2: "Archipelago",
       desc: "Find the best destination locations and plan your trip wisely.",
       stats: [
-        { num: "29", label: "Amazing Destinations" },
+        { num: "10", label: "Amazing Destinations" },
         { num: "18", label: "Exotic Islands" },
         { num: "7", label: "Best Snorkeling Spots" }
       ],
       dodontTitle: "DO & DON'T",
       dodontDesc: "Let's keep Komodo and its nature sustainable for future generations.",
       doTitle: "DO",
-      doList: [
-        "Keep a safe distance from Komodo",
-        "Follow ranger's instructions",
-        "Take your trash back",
-        "Use eco-friendly sunscreen",
-        "Respect local culture"
-      ],
+      doList: ["Keep a safe distance from Komodo", "Follow ranger's instructions", "Take your trash back", "Use eco-friendly sunscreen", "Respect local culture"],
       dontTitle: "DON'T",
-      dontList: [
-        "Do not feed the Komodo",
-        "Do not make noise or disturbances",
-        "Do not damage plants & reefs",
-        "Do not litter",
-        "Do not smoke in the national park area"
-      ]
+      dontList: ["Do not feed the Komodo", "Do not make noise or disturbances", "Do not damage plants & reefs", "Do not litter", "Do not smoke in the national park area"]
+    },
+    paket: {
+      badge: "Tour Packages",
+      title1: "Choose Your",
+      title2: "Adventure",
+      desc: "Discover unforgettable experiences exploring the wild beauty of Komodo and its surroundings.",
+      popular: "Popular",
+      promo: "Special Promo",
+      perPax: "/ pax",
+      contactUs: "Contact Us",
+      seeDetail: "See Details",
+      modalBooking: "Booking Details",
+      modalCustom: "Custom Route",
+      modalReguler: "Regular Trip",
+      selectDate: "Select Date",
+      dateRequired: "* Departure date is required",
+      paxCount: "Number of Passengers",
+      paxUnit: "Pax",
+      pricePerPax: "Price per person",
+      totalPayment: "Total Payment",
+      toPayment: "Proceed to Payment",
+      toWA: "Contact WhatsApp",
+      payMethod: "Payment Method",
+      payDesc: "Complete your payment to secure your ticket.",
+      back: "Back",
+      bill: "Total Bill",
+      payNow: "Pay Now",
+      changeMethod: "Change Payment Method",
+      finishPay: "Complete Payment",
+      payLimit: "Payment time limit:",
+      hour: "hours",
+      minute: "minutes",
+      method: "Method",
+      copyVA: "BCA Virtual Account Number",
+      copied: "Number successfully copied!",
+      vaInst: "Use m-BCA, KlikBCA, or BCA ATM to transfer.",
+      walletNum: "E-Wallet Number (GoPay/OVO/DANA)",
+      walletInst: "Transfer to the number under the name ORAHA ECOTOURISM.",
+      scanQR: "Scan QRIS Below",
+      qrInst: "Supports GoPay, OVO, DANA, ShopeePay, and Mobile Banking.",
+      iHavePaid: "I Have Paid",
+      paySuccess: "Payment Successful!",
+      paySuccessDesc: "Thank you for booking an adventure with ORAHA. E-Ticket and trip details have been sent.",
+      tripPackage: "Trip Package:",
+      date: "Date:",
+      passenger: "Passengers:",
+      totalPaid: "Total Paid:",
+      close: "Finish & Close"
     },
     faq: {
       title1: "Questions",
@@ -159,8 +248,23 @@ export const dict = {
         { question: "Can children and the elderly join this tour?", answer: "Certainly! We suggest choosing shorter trekking routes on Rinca Island." },
         { question: "Does the package price include the National Park entrance fee?", answer: "The prices are estimated costs per person. Official National Park entrance tickets are usually paid separately." }
       ]
+    },
+    testimoni: {
+      title1: "Traces of",
+      title2: "Goodness",
+      visitor: "Visitor",
+      data: [
+        { id: 1, nama: 'Budi S', teks: 'Incredible!', avatar: 'https://i.pravatar.cc/150?img=11' },
+        { id: 2, nama: 'Sarah W', teks: 'True ecotourism.', avatar: 'https://i.pravatar.cc/150?img=5' },
+        { id: 3, nama: 'Michael D', teks: 'The best sunrise.', avatar: 'https://i.pravatar.cc/150?img=8' },
+        { id: 4, nama: 'Andi P', teks: 'Very educational.', avatar: 'https://i.pravatar.cc/150?img=12' },
+        { id: 5, nama: 'Dewi R', teks: 'Well-preserved habitat.', avatar: 'https://i.pravatar.cc/150?img=9' },
+        { id: 6, nama: 'Rizky M', teks: 'Educational content.', avatar: 'https://i.pravatar.cc/150?img=15' },
+        { id: 7, nama: 'Fajar A', teks: 'Unique experience.', avatar: 'https://i.pravatar.cc/150?img=33' },
+        { id: 8, nama: 'Siska L', teks: 'A must-visit.', avatar: 'https://i.pravatar.cc/150?img=47' },
+        { id: 9, nama: 'Bagus K', teks: 'Eco-friendly.', avatar: 'https://i.pravatar.cc/150?img=59' },
+        { id: 10, nama: 'Putri Y', teks: 'Very memorable.', avatar: 'https://i.pravatar.cc/150?img=20' }
+      ]
     }
   }
 };
-
-export type Language = 'id' | 'en';

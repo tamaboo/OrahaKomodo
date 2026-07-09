@@ -1,7 +1,7 @@
 // File: src/views/Home.tsx
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowDown, Play, Sun, X } from 'lucide-react';
 import ScrollReveal from '@/components/ScrollReveal';
 
@@ -41,10 +41,27 @@ const YoutubeIcon = ({ size = 22 }: { size?: number }) => (
 // =========================================================================
 export default function Hero() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [currentBg, setCurrentBg] = useState(0);
 
   // AMBIL STATUS BAHASA GLOBAL DARI CONTEXT UNTUK MERUBAH ISI KONTEN TEKS
   const { lang } = useLanguage();
   const t = dict[lang].hero;
+
+  // Array gambar background
+  const bgImages = [
+    "/Home/bg.png",
+    "/Home/bg2.png",
+    "/Home/bg3.png"
+  ];
+
+  // Efek untuk mengganti gambar secara otomatis setiap 5 detik
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBg((prev) => (prev + 1) % bgImages.length);
+    }, 5000); // Ganti angka 5000 ini jika ingin jedanya lebih cepat/lambat (5000 = 5 detik)
+
+    return () => clearInterval(interval);
+  }, [bgImages.length]);
 
   // Fungsi smooth scroll ke bagian destinasi
   const scrollToDestinasi = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -63,26 +80,30 @@ export default function Hero() {
 
   return (
     <>
-      {/* Menggunakan min-h-[100dvh] agar tinggi menyesuaikan otomatis di HP jika konten terlalu padat */}
       <section id="home" className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-[#050810]">
         
         {/* ========================================================================= */}
-        {/* BACKGROUND IMAGE                                                          */}
+        {/* BACKGROUND IMAGE SLIDESHOW                                                */}
         {/* ========================================================================= */}
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="/Home/bg.png" 
-            alt="Komodo Island Background" 
-            className="w-full h-full object-cover object-center opacity-100 transition-transform duration-1000 ease-out"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-black/60 pointer-events-none"></div>
-          <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#050810] to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 z-0 bg-[#050810]">
+          {bgImages.map((src, index) => (
+            <img 
+              key={index}
+              src={src} 
+              alt={`Komodo Island Background ${index + 1}`} 
+              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ease-in-out ${
+                index === currentBg ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            />
+          ))}
+          {/* Overlay Gelap agar teks tetap terbaca dengan jelas */}
+          <div className="absolute inset-0 z-20 bg-gradient-to-r from-black/80 via-black/20 to-black/60 pointer-events-none"></div>
         </div>
 
         {/* ========================================================================= */}
         {/* SIDEBAR SOSIAL MEDIA (KIRI)                                               */}
         {/* ========================================================================= */}
-        <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-20 hidden sm:flex flex-col items-center gap-6 text-white">
+        <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-30 hidden sm:flex flex-col items-center gap-6 text-white">
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff0184] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(228,64,95,0.8)]" aria-label="Instagram">
             <InstagramIcon size={22} />
           </a>
@@ -105,7 +126,7 @@ export default function Hero() {
         {/* ========================================================================= */}
         {/* KONTEN UTAMA HERO (LAYOUT ASIMETRIS KIRI & KANAN)                        */}
         {/* ========================================================================= */}
-        <div className="relative z-10 container mx-auto px-6 sm:pl-24 md:pl-28 lg:px-24 pt-32 pb-28 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
+        <div className="relative z-30 container mx-auto px-6 sm:pl-24 md:pl-28 lg:px-24 pt-32 pb-28 lg:py-20 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 w-full">
           
           {/* BAGIAN KIRI: JUDUL & DESKRIPSI */}
           <div className="max-w-xl text-left w-full">
@@ -172,9 +193,9 @@ export default function Hero() {
         </div>
 
         {/* ========================================================================= */}
-        {/* INDIKATOR SCROLL TO EXPLORE (BAWAH TENGAH)                               */}
+        {/* INDIKATOR SCROLL TO EXPLORE (BAWAH TENGAH)                                */}
         {/* ========================================================================= */}
-        <div className="absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center cursor-pointer group" onClick={scrollToNextSection}>
+        <div className="absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center cursor-pointer group" onClick={scrollToNextSection}>
           <div className="w-10 h-10 rounded-full border border-white/30 group-hover:border-emerald-400 flex items-center justify-center text-white group-hover:text-emerald-400 transition-all duration-300 mb-2 animate-bounce bg-black/30 backdrop-blur-sm">
             <ArrowDown size={18} />
           </div>

@@ -24,29 +24,41 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Logika Active Section (Scrollspy)
+      // Logika Active Section (Scrollspy) yang lebih akurat
       const sections = ['home', 'sejarah', 'destinasi', 'peta', 'paketwisata'];
+      let currentSection = 'home';
+      
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            setActiveSection(section);
+          // 100px adalah offset agar saat discroll belum sampai pas tengah pun menu sudah aktif
+          if (window.scrollY >= element.offsetTop - 100) {
+            currentSection = section;
           }
         }
       }
+      setActiveSection(currentSection);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // FUNGSI SCROLL YANG DIPERBAIKI (Lebih Aman & Akurat)
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
-    setIsOpen(false);
+    setIsOpen(false); // Tutup menu mobile jika sedang terbuka
+    
     const element = document.getElementById(id);
     if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      // Menghitung posisi Y, dikurangi 80px untuk tinggi Navbar (Offset)
+      const offsetTop = element.offsetTop - 80;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+      // Set active secara manual saat diklik agar instan berubah
+      setActiveSection(id);
     }
   };
 
@@ -102,7 +114,6 @@ export default function Navbar() {
           <div className="h-5 w-[1px] bg-slate-700"></div>
 
           {/* TOGGLE BAHASA DENGAN BENDERA */}
-          {/* suppressHydrationWarning ditambahkan agar kebal dari ekstensi browser */}
           {isMounted && (
             <button
               suppressHydrationWarning

@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Search, ShieldCheck, Landmark, Leaf } from 'lucide-react';
 
-// 1. IMPORT CONTEXT BAHASA DAN DICTIONARY
+// IMPORT CONTEXT BAHASA DAN DICTIONARY
 import { useLanguage } from '@/components/LanguageContext';
 import { dict } from '@/data/dictionary';
 
@@ -25,7 +25,7 @@ export default function Sejarah() {
   const text1Ref = useRef<HTMLDivElement>(null);
   const text2Ref = useRef<HTMLDivElement>(null);
 
-  // 2. PANGGIL STATE BAHASA AKTIF
+  // PANGGIL STATE BAHASA AKTIF
   const { lang } = useLanguage();
   const t = dict[lang].sejarah;
 
@@ -41,10 +41,9 @@ export default function Sejarah() {
         }
       });
 
-      // SCENE 0: Tahan sejenak tampilan awal (Gambar 3 & TIMELINE BAWAH/KANAN)
       tl.to({}, { duration: 0.8 })
 
-      // SCENE 1: TIMELINE HILANG, Gambar 3 berganti Gambar 1 & Teks 1 (ATAS KIRI)
+      // SCENE 1: TIMELINE HILANG, Gambar 3 -> Gambar 1, Teks 1 Muncul
         .to(timelineRef.current, { opacity: 0, x: 50, duration: 1 }) 
         .to(img3Ref.current, { opacity: 0, scale: 0.85, duration: 1 }, "<")
         .to(img1Ref.current, { opacity: 1, scale: 1, duration: 1 }, "<")
@@ -52,7 +51,7 @@ export default function Sejarah() {
         
         .to({}, { duration: 0.8 }) 
 
-      // SCENE 2: Gambar 1 & Teks 1 hilang, Gambar 2 & Teks 2 Muncul (BAWAH KANAN)
+      // SCENE 2: Gambar 1 & Teks 1 hilang, Gambar 2 & Teks 2 Muncul
         .to(text1Ref.current, { opacity: 0, y: -20, duration: 1 }) 
         .to(img1Ref.current, { opacity: 0, scale: 0.9, duration: 1 }, "<")
         .to(img2Ref.current, { opacity: 1, scale: 1, duration: 1 }, "<")
@@ -66,26 +65,28 @@ export default function Sejarah() {
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full">
+    <div id="sejarah" ref={containerRef} className="w-full">
       <section ref={sectionRef} className="relative h-[100dvh] min-h-[650px] w-full bg-[#050810] flex items-center justify-center overflow-hidden">
         
         {/* ========================================== */}
-        {/* BACKGROUND IMAGE                           */}
+        {/* BACKGROUND IMAGE YANG SUDAH DIPERBAIKI     */}
         {/* ========================================== */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 bg-black">
           <img 
             src="/sejarah/bg.png" 
             alt="Background Sejarah" 
-            className="w-full h-full object-cover object-center opacity-90 transition-transform duration-1000 ease-out" 
+            className="w-full h-full object-cover object-center opacity-100 transition-transform duration-1000 ease-out" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050810]/60 via-transparent to-[#050810]/80 pointer-events-none"></div>
-          <div className="absolute bottom-0 right-0 w-full md:w-1/2 h-1/2 bg-gradient-to-t md:bg-gradient-to-tl from-[#050810]/90 via-[#050810]/50 to-transparent pointer-events-none"></div>
+          {/* Overlay Tipis: Cukup 20% agar warna asli gambar tetap menonjol */}
+          <div className="absolute inset-0 bg-[#050810]/20 pointer-events-none"></div>
+          {/* Gradient Bawah Tipis: Hanya untuk memastikan teks di bagian bawah tetap terbaca */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050810]/70 via-transparent to-transparent pointer-events-none"></div>
         </div>
 
         {/* ========================================== */}
         {/* GAMBAR UTAMA GSAP SCROLL                   */}
         {/* ========================================== */}
-        <div className="relative w-full max-w-2xl h-[45vh] md:h-[60vh] translate-y-8 md:translate-y-0 z-10 flex items-center justify-center pointer-events-none">
+        <div className="relative w-full max-w-2xl h-[45vh] md:h-[60vh] translate-y-20 md:translate-y-40 z-10 flex items-center justify-center pointer-events-none">
           <img ref={img3Ref} src="/Home/3.png" alt="Komodo Dorsal View" className="absolute inset-0 w-full h-full object-contain opacity-100 drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)]" />
           <img ref={img1Ref} src="/Home/1.png" alt="Komodo Side View" className="absolute inset-0 w-full h-full object-contain opacity-0 scale-95 drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)]" />
           <img ref={img2Ref} src="/Home/2.png" alt="Komodo Active View" className="absolute inset-0 w-full h-full object-contain opacity-0 scale-95 drop-shadow-[0_20px_30px_rgba(0,0,0,0.9)]" />

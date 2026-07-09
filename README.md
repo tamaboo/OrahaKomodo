@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 ORAHA Ecotourism Web
 
-## Getting Started
+Selamat datang di repositori resmi **ORAHA Ecotourism**!
 
-First, run the development server:
+Website ini merupakan platform ekowisata dan pariwisata berkelanjutan yang dikembangkan secara khusus untuk mempromosikan dan mendukung kelestarian Taman Nasional Komodo. ORAHA menyediakan informasi destinasi wisata yang mendalam, paket perjalanan eksklusif, peta interaktif, serta sistem pemesanan tiket yang modern dan terintegrasi.
+
+---
+
+## ✨ Fitur Utama
+
+- 🌍 **Multi-language Support**: Terintegrasi penuh dengan dua bahasa (Indonesia & Inggris) menggunakan Context API tanpa memuat ulang halaman.
+- 🗺️ **Interactive Destination Map**: Peta interaktif area kepulauan dengan animasi titik pin presisi yang pas di atas pulau serta _tooltip_ detail destinasi yang interaktif.
+- 💳 **Tour Booking System**: Sistem formulir pemesanan paket wisata dengan UI/UX modern, dilengkapi simulasi alur pembayaran via Virtual Account (BCA), E-Wallet (GoPay/OVO/DANA), dan QRIS.
+- 📱 **100% Responsive Design**: Tata letak dan penataan gambar latar belakang (_background_) yang dioptimalkan secara sempurna untuk segala ukuran layar (Mobile, Tablet, Desktop) tanpa terpotong.
+- ⚡ **High Performance & Animations**: Performa memuat halaman yang sangat cepat berkat SSR Next.js, dibalut dengan animasi transisi yang mulus menggunakan GSAP (GreenSock) dan CSS modern.
+
+---
+
+## 🛠️ Teknologi & Library (Tech Stack)
+
+Proyek ini dibangun menggunakan teknologi web modern. Berikut adalah daftar library utama yang digunakan:
+
+- **Framework Utama**: [Next.js](https://nextjs.org/) (React 18)
+- **Bahasa Pemrograman**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling & UI**: [Tailwind CSS](https://tailwindcss.com/)
+- **Ikon**: [Lucide React](https://lucide.dev/)
+- **Animasi Kompleks**: [GSAP (GreenSock)](https://gsap.com/) & ScrollTrigger
+- **Aset Visual (Bendera)**: `react-country-flag`
+- **State Management**: React Hooks & Context API
+
+---
+
+## ⚙️ Persyaratan Sistem (Prerequisites)
+
+Sebelum melakukan instalasi, pastikan komputer/laptop Anda sudah terpasang perangkat lunak berikut:
+
+1. **Node.js** (Versi 18.0.0 atau yang lebih baru disarankan) - [Download di sini](https://nodejs.org/)
+2. **npm** (Package manager bawaan Node.js) atau **yarn** / **pnpm**.
+3. **Git** (Untuk meng-clone repositori) - [Download di sini](https://git-scm.com/)
+
+---
+
+## 🚀 Panduan Instalasi & Menjalankan Proyek
+
+Ikuti langkah-langkah di bawah ini untuk menjalankan website ORAHA di komputer lokal Anda:
+
+### 1. Clone Repositori
+
+Buka terminal/Command Prompt Anda, lalu jalankan perintah berikut untuk mengunduh kode sumber:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [https://github.com/username-anda/oraha-ecotourism.git](https://github.com/username-anda/oraha-ecotourism.git)
+cd oraha-ecotourism
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Instalasi Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Jalankan perintah berikut untuk menginstal semua dependencies yang diperlukan:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+```
 
-## Learn More
+### 3. Konfigurasi Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Buat file `.env` di dalam folder `src` dan tambahkan kunci dan nilai environment variables Anda. Misalnya:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Buka di Browser
 
-## Deploy on Vercel
+Buka browser favorit Anda (Chrome, Safari, Edge, Firefox) dan kunjungi tautan berikut:
+http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📂 Struktur Folder Proyek
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Untuk memudahkan navigasi dalam pengembangan, berikut adalah struktur folder utama dari proyek ORAHA:
+
+oraha-ecotourism/
+├── public/ # Folder untuk semua aset statis (gambar, ikon, logo)
+│ ├── Destinasi/ # Gambar untuk detail destinasi wisata
+│ ├── Faq/ # Gambar latar belakang (background) komponen FAQ
+│ ├── Home/ # Aset gambar halaman utama dan Logo ORAHA
+│ ├── Paket/ # Gambar cover untuk kartu paket wisata
+│ └── Peta/ # Gambar latar belakang denah kepulauan Peta
+├── src/
+│ ├── app/ # Tata letak utama dan routing Next.js (App Router)
+│ ├── components/ # Komponen UI Reusable (Navbar, Peta, PaketWisata, Testimoni, dll)
+│ ├── context/ # Global State Management (LanguageContext.tsx untuk dwibahasa)
+│ └── data/ # Penyimpanan Data Tekstual
+│ └── dictionary.ts # KUMPULAN TEKS KONTEN (Pusat Terjemahan ID & EN)
+│ └── destinasi.ts # Kumpulan destinasi wisata
+├── package.json # Daftar konfigurasi library, dependencies, dan script npm
+├── tailwind.config.ts # Kustomisasi tema, warna, dan breakpoint Tailwind CSS
+└── README.md # Dokumentasi proyek yang sedang Anda baca ini
+
+### 📜 Lisensi
+
+Hak Cipta © 2026 ORAHA Ecotourism.
+Proyek ini dibuat untuk tujuan edukasi, pengembangan pariwisata berkelanjutan, dan perlindungan berbasis komunitas di kawasan Taman Nasional Komodo. Semua aset visual yang digunakan merupakan hak milik dari masing-masing kreator aslinya.

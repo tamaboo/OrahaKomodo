@@ -69,7 +69,7 @@ export default function Destinasi() {
           <img 
             src="/Destinasi/bg.png" 
             alt="Background Destinasi" 
-            className="w-full h-full object-cover object-top md:object-center opacity-100 transition-transform duration-1000 ease-out" 
+            className="w-full h-full object-cover object-top md:object-center opacity-45 transition-transform duration-1000 ease-out" 
           />
         </div>
 

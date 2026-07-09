@@ -20,36 +20,15 @@ export default function Page() {
       {/* 2. Navbar - Navigasi antar section */}
       <Navbar />
       {/* 3. Urutan Konten Section */}
-      <main>
-        <section id="home">
-          <Home />
-        </section>
-        
-        <section id="sejarah">
-          <Sejarah />
-        </section>
-
-        <section id="destinasi">
-          <Destinasi />
-        </section>
-
-        <section id="peta">
-          <Peta />
-        </section>
-
-        <section id="paketwisata">
-          <PaketWisata />
-        </section>
-
-        <section id="testimoni">
-          <Testimoni />
-        </section>
-
-        <section id="faq">
-          <Faq />
-        </section>
-
-      </main>
+     <main>
+    <Home />
+    <Sejarah />
+    <Destinasi />
+    <Peta />
+    <PaketWisata />
+    <Testimoni/>
+    <Faq />
+    </main>
       <MusicPlayer />
       <Chatbot />
       <Footer />
