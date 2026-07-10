@@ -7,15 +7,10 @@ import { dict } from '@/data/dictionary';
 export default function Testimoni() {
   // 1. Ambil state bahasa dari context (sesuaikan destructuring dengan isi context-mu)
   const { lang } = useLanguage(); 
-  
-  // Jika context-mu langsung me-return string 'id' atau 'en', gunakan ini:
-  // const language = useLanguage(); 
-
-  // 2. Ambil data dengan optional chaining (?.) untuk berjaga-jaga
   const content = dict[lang]?.testimoni;
 
   if (!content || !content.data) {
-    return <section className="relative py-24 bg-[#050810] min-h-[400px] w-full" />;
+    return <section id="testimoni" className="relative py-24 bg-[#050810] min-h-[400px] w-full" />;
   }
 
   const testimoniData = content.data;
@@ -23,7 +18,7 @@ export default function Testimoni() {
   const row2 = [...testimoniData.slice(5, 10), ...testimoniData.slice(5, 10)];
 
   return (
-    <section className="relative py-24 bg-[#050810] overflow-hidden">
+    <section id="testimoni" className="relative py-24 bg-[#050810] overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img 
           src="/Testimoni/bg.png" 

@@ -132,6 +132,23 @@ export const dict: any = {
         { id: 9, nama: 'Bagus K', teks: 'Ramah lingkungan.', avatar: 'https://i.pravatar.cc/150?img=59' },
         { id: 10, nama: 'Putri Y', teks: 'Sangat berkesan.', avatar: 'https://i.pravatar.cc/150?img=20' }
       ]
+    },
+    footer: {
+      desc: "Gerbang digital eksplorasi Taman Nasional Komodo. Kami berkomitmen menghadirkan pengalaman petualangan alam liar yang otentik, berkelanjutan, dan berdampak positif bagi ekosistem serta masyarakat lokal.",
+      partner: "Mitra Resmi Konservasi & Wisata Bahari",
+      explore: "Jelajahi",
+      contactUs: "Hubungi Kami",
+      followUs: "Ikuti Petualangan",
+      followDesc: "Dapatkan dokumentasi satwa eksklusif dan promo paket trip wisata terbaru melalui sosial media kami.",
+      createdWith: "Dibuat dengan",
+      for: "untuk",
+      navHome: "Beranda",
+      navHistory: "Sejarah Komodo",
+      navDest: "Destinasi Wisata",
+      navMap: "Peta Eksplorasi",
+      navPackage: "Paket Trip",
+      navTesti: "Testimoni",
+      navFaq: "FAQ"
     }
   },
   en: {
@@ -265,6 +282,23 @@ export const dict: any = {
         { id: 9, nama: 'Bagus K', teks: 'Eco-friendly.', avatar: 'https://i.pravatar.cc/150?img=59' },
         { id: 10, nama: 'Putri Y', teks: 'Very memorable.', avatar: 'https://i.pravatar.cc/150?img=20' }
       ]
+    },
+    footer: {
+      desc: "The digital gateway to exploring Komodo National Park. We are committed to providing an authentic, sustainable wilderness adventure that positively impacts the ecosystem and local communities.",
+      partner: "Official Marine Tourism & Conservation Partner",
+      explore: "Explore",
+      contactUs: "Contact Us",
+      followUs: "Follow the Adventure",
+      followDesc: "Get exclusive wildlife documentation and the latest tour package promos through our social media.",
+      createdWith: "Created with",
+      for: "for",
+      navHome: "Home",
+      navHistory: "Komodo History",
+      navDest: "Tourist Destinations",
+      navMap: "Exploration Map",
+      navPackage: "Tour Packages",
+      navTesti: "Testimonials",
+      navFaq: "FAQ"
     }
   }
 };

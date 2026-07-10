@@ -14,7 +14,9 @@ export default function Faq() {
   if (!t) return null;
 
   return (
-    <section className="relative py-24 px-6 md:px-12 overflow-hidden">
+    // Tambahkan id="faq" di sini agar link dari Footer bisa berfungsi
+    <section id="faq" className="relative py-24 px-6 md:px-12 overflow-hidden">
+      
       {/* BACKGROUND IMAGE DENGAN FILTER BRIGHTNESS */}
       <div 
         className="absolute inset-0 z-0"
@@ -24,10 +26,10 @@ export default function Faq() {
           backgroundPosition: 'center',
           filter: 'brightness(1.4)' // Nilai > 1.0 akan membuat gambar lebih terang
         }}
-      ></div>
+      />
       
       {/* OVERLAY DITURUNKAN OPACITY-NYA AGAR GAMBAR LEBIH TERANG */}
-      <div className="absolute inset-0 bg-[#050810]/40 z-0"></div>
+      <div className="absolute inset-0 bg-[#050810]/40 z-0" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         <ScrollReveal>
@@ -51,7 +53,7 @@ export default function Faq() {
                 }`}>
                   <button
                     onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                    className="w-full px-6 py-5 flex justify-between items-center text-left"
+                    className="w-full px-6 py-5 flex justify-between items-center text-left cursor-pointer"
                   >
                     <span className={`font-bold text-lg pr-4 transition-colors ${isOpen ? 'text-emerald-400' : 'text-white'}`}>
                       {faq.question}

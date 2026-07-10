@@ -3,10 +3,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { MapPin, Phone, Mail, ArrowRight, Heart } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
+import { dict } from '@/data/dictionary';
 
-// =========================================================================
-// KOMPONEN IKON SOSIAL MEDIA MANDIRI (ANTI-ERROR)
-// =========================================================================
 const InstagramIcon = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
@@ -31,19 +30,22 @@ const YoutubeIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// Data Link Navigasi
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Sejarah Komodo', href: '#sejarah' },
-  { label: 'Destinasi Wisata', href: '#destinasi' },
-  { label: 'Peta Eksplorasi', href: '#peta' },
-  { label: 'Paket Trip', href: '#paketwisata' },
-  { label: 'Testimoni', href: '#testimoni' },
-  { label: 'FAQ', href: '#faq' },
-];
-
 export default function Footer() {
-  // Fungsi smooth scroll untuk link navigasi
+  const { lang } = useLanguage();
+  const t = dict[lang]?.footer;
+
+  if (!t) return null;
+
+  const navLinks = [
+    { label: t.navHome, href: '#home' },
+    { label: t.navHistory, href: '#sejarah' },
+    { label: t.navDest, href: '#destinasi' },
+    { label: t.navMap, href: '#peta' },
+    { label: t.navPackage, href: '#paketwisata' },
+    { label: t.navTesti, href: '#testimoni' },
+    { label: t.navFaq, href: '#faq' },
+  ];
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -54,21 +56,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#050810] text-white pt-16 pb-12 border-t border-slate-800/80 relative overflow-hidden w-full">
-      
-      {/* Background Glow Halus di Sudut */}
+    <footer className="bg-gradient-to-b from-[#0a121d] via-[#050810] to-[#0a2342] text-white pt-16 pb-12 border-t border-slate-800/80 relative overflow-hidden w-full">
       <div className="absolute top-0 right-10 w-96 h-96 bg-emerald-600/5 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 left-10 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none"></div>
 
-      {/* KONTAINER FULL SCREEN WITH RESPONSIVE PADDING (Tanpa max-w-7xl) */}
       <div className="w-full px-6 md:px-12 lg:px-20 xl:px-28 relative z-10">
-        
-        {/* ========================================================= */}
-        {/* GRID UTAMA 4 KOLOM FULL WIDTH                             */}
-        {/* ========================================================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 pb-14 border-b border-slate-800/80">
           
-          {/* KOLOM 1: LOGO & TENTANG ORAHA (4 Kolom) */}
           <div className="lg:col-span-4 space-y-5">
             <div 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -92,19 +86,18 @@ export default function Footer() {
             </div>
 
             <p className="text-slate-400 text-sm leading-relaxed pr-0 lg:pr-4">
-              Gerbang digital eksplorasi Taman Nasional Komodo. Kami berkomitmen menghadirkan pengalaman petualangan alam liar yang otentik, berkelanjutan, dan berdampak positif bagi ekosistem serta masyarakat lokal.
+              {t.desc}
             </p>
 
             <div className="pt-2 flex items-center gap-2 text-xs text-slate-300 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Mitra Resmi Konservasi & Wisata Bahari</span>
+              <span>{t.partner}</span>
             </div>
           </div>
 
-          {/* KOLOM 2: NAVIGASI CEPAT (2 Kolom) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="text-sm font-bold uppercase tracking-widest text-emerald-400 border-l-2 border-emerald-500 pl-3">
-              Jelajahi
+              {t.explore}
             </h4>
             <ul className="space-y-2.5">
               {navLinks.map((link, idx) => (
@@ -122,14 +115,11 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* KOLOM 3: KONTAK & ALAMAT (3 Kolom) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-sm font-bold uppercase tracking-widest text-emerald-400 border-l-2 border-emerald-500 pl-3">
-              Hubungi Kami
+              {t.contactUs}
             </h4>
             <div className="space-y-3.5 text-sm text-slate-300">
-              
-              {/* Alamat */}
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="text-emerald-400 shrink-0 mt-0.5" />
                 <p className="text-xs leading-relaxed text-slate-400">
@@ -137,7 +127,6 @@ export default function Footer() {
                 </p>
               </div>
 
-              {/* Telepon / WhatsApp */}
               <div className="flex items-center gap-3">
                 <Phone size={18} className="text-emerald-400 shrink-0" />
                 <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="text-xs text-slate-300 hover:text-emerald-400 transition-colors font-mono">
@@ -145,92 +134,50 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* Email */}
               <div className="flex items-center gap-3">
                 <Mail size={18} className="text-emerald-400 shrink-0" />
                 <a href="mailto:info@orahakomodo.id" className="text-xs text-slate-300 hover:text-emerald-400 transition-colors">
                   info@orahakomodo.id
                 </a>
               </div>
-
             </div>
           </div>
 
-          {/* KOLOM 4: MEDIA SOSIAL & NEWSLETTER (3 Kolom) */}
           <div className="lg:col-span-3 space-y-4">
             <h4 className="text-sm font-bold uppercase tracking-widest text-emerald-400 border-l-2 border-emerald-500 pl-3">
-              Ikuti Petualangan
+              {t.followUs}
             </h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Dapatkan dokumentasi satwa eksklusif dan promo paket trip wisata terbaru melalui sosial media kami.
+              {t.followDesc}
             </p>
 
-            {/* Tombol Sosial Media dengan Brand Colors */}
             <div className="flex items-center gap-3 pt-2">
-              
-              {/* Instagram */}
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#ff1d7f] hover:border-[#E4405F]/50 hover:bg-[#E4405F]/10 hover:scale-110 transition-all duration-300 shadow-lg"
-                aria-label="Instagram"
-              >
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#ff1d7f] hover:border-[#E4405F]/50 hover:bg-[#E4405F]/10 hover:scale-110 transition-all duration-300 shadow-lg" aria-label="Instagram">
                 <InstagramIcon size={18} />
               </a>
-
-              {/* Facebook */}
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#1877F2] hover:border-[#1877F2]/50 hover:bg-[#1877F2]/10 hover:scale-110 transition-all duration-300 shadow-lg"
-                aria-label="Facebook"
-              >
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#1877F2] hover:border-[#1877F2]/50 hover:bg-[#1877F2]/10 hover:scale-110 transition-all duration-300 shadow-lg" aria-label="Facebook">
                 <FacebookIcon size={18} />
               </a>
-
-              {/* TikTok */}
-              <a 
-                href="https://tiktok.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#ffffff] hover:border-[#ff0050]/50 hover:bg-slate-800 hover:scale-110 transition-all duration-300 shadow-lg"
-                aria-label="TikTok"
-              >
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#ffffff] hover:border-[#ff0050]/50 hover:bg-slate-800 hover:scale-110 transition-all duration-300 shadow-lg" aria-label="TikTok">
                 <TikTokIcon size={18} />
               </a>
-
-              {/* YouTube */}
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#FF0000] hover:border-[#FF0000]/50 hover:bg-[#FF0000]/10 hover:scale-110 transition-all duration-300 shadow-lg"
-                aria-label="YouTube"
-              >
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-[#FF0000] hover:border-[#FF0000]/50 hover:bg-[#FF0000]/10 hover:scale-110 transition-all duration-300 shadow-lg" aria-label="YouTube">
                 <YoutubeIcon size={18} />
               </a>
-
             </div>
           </div>
-
         </div>
 
-        {/* ========================================================= */}
-        {/* BOTTOM BAR (COPYRIGHT & COMPETITION INFO)                 */}
-        {/* ========================================================= */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
             &copy; 2026 <strong className="text-slate-300 font-normal">ORAHA Ecotourism</strong>. All rights reserved.
           </div>
           <div className="flex items-center gap-1.5 text-center sm:text-right">
-            <span>Created with</span>
+            <span>{t.createdWith}</span>
             <Heart size={14} className="text-rose-500 fill-rose-500 animate-pulse inline" />
-            <span>for <strong className="text-emerald-400 font-medium">SDGs Creative Web Competition — BytesFest 2026</strong></span>
+            <span>{t.for} <strong className="text-emerald-400 font-medium">SDGs Creative Web Competition — BytesFest 2026</strong></span>
           </div>
         </div>
-
       </div>
     </footer>
   );

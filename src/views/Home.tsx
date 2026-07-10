@@ -103,16 +103,21 @@ export default function Hero() {
         {/* ========================================================================= */}
         {/* SIDEBAR SOSIAL MEDIA (KIRI)                                               */}
         {/* ========================================================================= */}
-        <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-30 hidden sm:flex flex-col items-center gap-6 text-white">
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff0184] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(228,64,95,0.8)]" aria-label="Instagram">
+        <div className="absolute left-6 md:left-10 top-1/2 -translate-y-1/2 z-40 hidden sm:flex flex-col items-center gap-6 text-white">
+          
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#ff5372] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(228,64,95,0.8)]" aria-label="Instagram">
             <InstagramIcon size={22} />
           </a>
+          
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#1877F2] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(24,119,242,0.8)]" aria-label="Facebook">
             <FacebookIcon size={22} />
           </a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffffff] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(255,0,80,0.9)]" aria-label="TikTok">
+          
+          {/* Warna TikTok diubah ke Cyan agar animasinya terlihat nyala */}
+          <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#ffffff] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(0,242,254,0.9)]" aria-label="TikTok">
             <TikTokIcon size={22} />
           </a>
+          
           <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#FF0000] hover:scale-125 transition-all duration-300 hover:drop-shadow-[0_0_12px_rgba(255,0,0,0.8)]" aria-label="YouTube">
             <YoutubeIcon size={22} />
           </a>
