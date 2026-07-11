@@ -7,7 +7,7 @@ import { ArrowRight, ArrowLeft, X, Calendar, CreditCard, Wallet, QrCode, Buildin
 import { useLanguage } from '@/components/LanguageContext';
 import { dict } from '@/data/dictionary';
 
-// Data Trip (Tanpa text translation hardcode)
+// Data Trip 
 const trips = [
   { id: 1, title: '1 Day Trip', enTitle: '1 Day Trip', route: 'Labuan Bajo - Rinca - Padar - Pink Beach', enRoute: 'Labuan Bajo - Rinca - Padar - Pink Beach', price: 750000, type: 'normal', bgImage: '/Paket/1.jpg' },
   { id: 2, title: '2 Day 1 Night', enTitle: '2 Day 1 Night', route: 'Komodo - Manta Point - Taka Makassar - Padar', enRoute: 'Komodo - Manta Point - Taka Makassar - Padar', price: 1650000, type: 'normal', bgImage: '/Paket/2.jpg' },
@@ -71,405 +71,421 @@ export default function PaketWisata() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // Buka WhatsApp Otomatis dengan Pesan Pre-filled
+  const handleWhatsApp = () => {
+    if (!bookingDate) {
+      alert(lang === 'id' ? 'Silakan pilih tanggal terlebih dahulu.' : 'Please select a date first.');
+      return;
+    }
+
+    const phoneNumber = "6282176543210"; // Ganti dengan nomor WhatsApp Admin
+    const tripName = lang === 'en' ? selectedTrip.enTitle : selectedTrip.title;
+    
+    const message = lang === 'id' 
+      ? `Halo Admin ORAHA, saya tertarik untuk memesan *${tripName}* untuk tanggal *${bookingDate}*. Boleh minta informasi lebih lanjut mengenai harga dan kustomisasi rutenya?`
+      : `Hello ORAHA Admin, I am interested in booking the *${tripName}* for the date *${bookingDate}*. Could you please provide more information regarding the pricing and route customization?`;
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   // Hitung Total
   const totalPembayaran = selectedTrip ? (selectedTrip.promoPrice || selectedTrip.price) * pax : 0;
 
   return (
     <>
-   <section 
-  id="paketwisata" 
-  className="relative z-20 -mt-8 w-full h-[100dvh] min-h-[650px] flex items-center justify-center bg-[#050810] overflow-hidden" 
->
-  {/* BACKGROUND IMAGE - Pastikan di posisi 0 */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/Paket/bg.png"
-              alt=""
-              className="w-full h-full object-cover object-top block"
-            />  
-            <div className="absolute inset-0 bg-[#050810]/20" />
-          </div>
-          <style jsx>{`
-            .hide-scrollbar::-webkit-scrollbar { display: none; }
-            .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-          `}</style>
+      <section 
+        id="paketwisata" 
+        className="relative z-20 -mt-8 w-full h-[100dvh] min-h-[650px] flex items-center justify-center bg-[#050810] overflow-hidden" 
+      >
+        {/* BACKGROUND IMAGE */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Paket/bg.png"
+            alt=""
+            className="w-full h-full object-cover object-top block"
+          />  
+          <div className="absolute inset-0 bg-[#050810]/20" />
+        </div>
+        <style jsx>{`
+          .hide-scrollbar::-webkit-scrollbar { display: none; }
+          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        `}</style>
 
-          <div className="container mx-auto px-6 relative z-10 w-full md:mt-0">
-            <div className="flex flex-col xl:flex-row gap-8 items-center xl:items-stretch">
-              
-              {/* BAGIAN KIRI: JUDUL */}
-              <div className="w-full xl:w-[320px] flex flex-col justify-center text-center xl:text-left z-10" data-aos="fade-up">
-                <span className="text-emerald-500 font-bold uppercase tracking-widest text-xs mb-3 block drop-shadow-md">
-                  {txt.badge}
-                </span>
-                <h2 className="text-4xl md:text-5xl font-serif text-white mb-6 leading-tight drop-shadow-lg">
-                  {txt.title1}<br className="hidden xl:block"/> {txt.title2}
-                </h2>
-                <p className="text-slate-200 text-sm mb-4 hidden xl:block drop-shadow-md">
-                  {txt.desc}
-                </p>
-              </div>
-
-              {/* BAGIAN KANAN: CAROUSEL KARTU TRIP */}
-              <div className="relative w-full flex-1 min-w-0 group">
-                <button 
-                  onClick={() => scroll('left')} 
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -ml-5 z-20 w-12 h-12 bg-slate-800 rounded-full border border-slate-600 hidden md:flex items-center justify-center text-white hover:bg-emerald-600 hover:border-emerald-500 shadow-xl transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
-                >
-                  <ArrowLeft size={20} />
-                </button>
-
-                <div 
-                  ref={scrollContainerRef} 
-                  className="flex flex-nowrap items-stretch gap-6 overflow-x-auto py-10 px-4 hide-scrollbar snap-x"
-                >
-                  {trips.map((trip, index) => (
-                    <div 
-                      key={trip.id} 
-                      // 1. Tambahkan "group" untuk trigger efek hover ke gambar di dalamnya
-                      className="group flex-none w-[280px] snap-start relative flex flex-col transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                      // 2. Tambahkan animasi AOS dengan delay berurutan (0, 100, 200, dst)
-                      data-aos="fade-up"
-                      data-aos-delay={index * 100}
-                    >
-                      <div className={`absolute inset-0 rounded-3xl overflow-hidden border ${
-                        trip.type === 'popular' ? 'border-emerald-500 shadow-[0_10px_30px_rgba(16,185,129,0.25)]' 
-                        : trip.type === 'promo' ? 'border-rose-500 shadow-[0_10px_30px_rgba(244,63,94,0.25)]'
-                        : 'border-slate-700'
-                      }`}>
-                        
-                        {/* 3. Efek Hover Zoom pada Background (group-hover:scale-110) */}
-                        <div 
-                          className="absolute inset-0 z-0 transition-transform duration-700 ease-out group-hover:scale-110"
-                          style={{
-                            backgroundImage: `url(${trip.bgImage})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center'
-                          }}
-                        ></div>
-                        
-                        {/* Overlay Gradient agar teks putih tetap terbaca di atas gambar terang */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1121] via-[#0b1121]/70 to-[#0b1121]/10 z-1"></div>
-                      </div>
-
-                      {/* Badge Popular / Promo */}
-                      {trip.type === 'popular' && (
-                        <div className="absolute -top-3 left-6 z-20 bg-emerald-500 text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-emerald-500/40">
-                          {txt.popular}
-                        </div>
-                      )}
-                      {trip.type === 'promo' && (
-                        <div className="absolute -top-3 left-6 z-20 bg-rose-500 text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-rose-500/40 animate-pulse">
-                          {txt.promo}
-                        </div>
-                      )}
-
-                      {/* Konten Teks Kartu */}
-                      <div className="relative z-10 flex flex-col h-full p-6">
-                        <div className="flex-1 mt-4">
-                          <h3 className="text-2xl font-bold text-white mb-3 drop-shadow-md">
-                            {lang === 'en' ? trip.enTitle : trip.title}
-                          </h3>
-                          <p className="text-slate-300 text-sm leading-relaxed mb-6 drop-shadow-md">
-                            {lang === 'en' ? trip.enRoute : trip.route}
-                          </p>
-                        </div>
-
-                        <div className="mt-auto border-t border-slate-700/60 pt-5">
-                          {trip.type === 'promo' ? (
-                            <div className="mb-4">
-                              <p className="text-slate-400 text-xs line-through mb-1">{formatRp(trip.price)}</p>
-                              <p className="text-white font-bold text-xl drop-shadow-md">
-                                {formatRp(trip.promoPrice!)} <span className="text-xs text-slate-300 font-normal">{txt.perPax}</span>
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="mb-4">
-                              <p className="text-white font-bold text-xl drop-shadow-md">
-                                {formatRp(trip.price)} {trip.price > 0 && <span className="text-xs text-slate-300 font-normal">{txt.perPax}</span>}
-                              </p>
-                            </div>
-                          )}
-
-                          <button 
-                            onClick={() => setSelectedTrip(trip)}
-                            className="flex items-center justify-between text-sm text-white bg-slate-900/60 backdrop-blur-sm border border-slate-600 px-5 py-3 rounded-xl hover:bg-emerald-600 hover:border-emerald-600 transition-all w-full group/btn cursor-pointer"
-                          >
-                            {txt.seeDetail}
-                            <ArrowRight size={16} className="text-emerald-400 group-hover/btn:text-white transition-colors" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <button 
-                  onClick={() => scroll('right')} 
-                  className="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 z-20 w-12 h-12 bg-slate-800 rounded-full border border-slate-600 hidden md:flex items-center justify-center text-white hover:bg-emerald-600 hover:border-emerald-500 shadow-xl transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
-                >
-                  <ArrowRight size={20} />
-                </button>
-
-              </div>
+        <div className="container mx-auto px-6 relative z-10 w-full md:mt-0">
+          <div className="flex flex-col xl:flex-row gap-8 items-center xl:items-stretch">
+            
+            {/* BAGIAN KIRI: JUDUL */}
+            <div className="w-full xl:w-[320px] flex flex-col justify-center text-center xl:text-left z-10" data-aos="fade-up">
+              <span className="text-emerald-500 font-bold uppercase tracking-widest text-xs mb-3 block drop-shadow-md">
+                {txt.badge}
+              </span>
+              <h2 className="text-4xl md:text-5xl font-serif text-white mb-6 leading-tight drop-shadow-lg">
+                {txt.title1}<br className="hidden xl:block"/> {txt.title2}
+              </h2>
+              <p className="text-slate-200 text-sm mb-4 hidden xl:block drop-shadow-md">
+                {txt.desc}
+              </p>
             </div>
-          </div>
-        </section>
 
-        {/* ======================================================== */}
-        {/* MODAL PEMBAYARAN & BOOKING                               */}
-        {/* ======================================================== */}
-        {selectedTrip && (
-          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-[#050810]/95 backdrop-blur-sm animate-in fade-in duration-200" data-aos="fade-in">
-            <div className="bg-[#0b1121] rounded-3xl p-6 md:p-8 max-w-md w-full relative border border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.5)] scale-in-center max-h-[90vh] overflow-y-auto hide-scrollbar" data-aos="zoom-in">
-              
+            {/* BAGIAN KANAN: CAROUSEL KARTU TRIP */}
+            <div className="relative w-full flex-1 min-w-0 group">
               <button 
-                onClick={closeModal} 
-                className="absolute top-5 right-5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full p-2 transition-colors z-10 cursor-pointer"
+                onClick={() => scroll('left')} 
+                className="absolute left-0 top-1/2 -translate-y-1/2 -ml-5 z-20 w-12 h-12 bg-slate-800 rounded-full border border-slate-600 hidden md:flex items-center justify-center text-white hover:bg-emerald-600 hover:border-emerald-500 shadow-xl transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
               >
-                <X size={20}/>
+                <ArrowLeft size={20} />
               </button>
 
-              {/* STEP 1: FORM BOOKING */}
-              {step === 1 && (
-                <>
-                  <h3 className="text-2xl font-bold text-white mb-1">{txt.modalBooking}</h3>
-                  <p className="text-slate-400 text-sm mb-6 pb-4 border-b border-slate-800">
-                    {lang === 'en' ? selectedTrip.enTitle : selectedTrip.title} • {selectedTrip.type === 'custom' ? txt.modalCustom : txt.modalReguler}
-                  </p>
-
-                  <div className="space-y-5 mb-8">
-                    <div>
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">{txt.selectDate} <span className="text-rose-500">*</span></label>
-                      <div className="relative">
-                        <input 
-                          type="date" 
-                          value={bookingDate}
-                          onChange={(e) => setBookingDate(e.target.value)}
-                          className="w-full bg-[#1e293b]/50 border border-slate-700 focus:border-emerald-500 rounded-xl px-4 py-3.5 text-white outline-none transition-colors cursor-pointer" 
-                        />
-                        <Calendar size={18} className="absolute right-4 top-4 text-slate-400 pointer-events-none" />
-                      </div>
-                      {!bookingDate && <p className="text-rose-400 text-xs mt-1.5">{txt.dateRequired}</p>}
+              <div 
+                ref={scrollContainerRef} 
+                className="flex flex-nowrap items-stretch gap-6 overflow-x-auto py-10 px-4 hide-scrollbar snap-x"
+              >
+                {trips.map((trip, index) => (
+                  <div 
+                    key={trip.id} 
+                    className="group flex-none w-[280px] snap-start relative flex flex-col transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                    data-aos="fade-up"
+                    data-aos-delay={index * 100}
+                  >
+                    <div className={`absolute inset-0 rounded-3xl overflow-hidden border ${
+                      trip.type === 'popular' ? 'border-emerald-500 shadow-[0_10px_30px_rgba(16,185,129,0.25)]' 
+                      : trip.type === 'promo' ? 'border-rose-500 shadow-[0_10px_30px_rgba(244,63,94,0.25)]'
+                      : 'border-slate-700'
+                    }`}>
+                      
+                      {/* Efek Hover Zoom pada Background */}
+                      <div 
+                        className="absolute inset-0 z-0 transition-transform duration-700 ease-out group-hover:scale-110"
+                        style={{
+                          backgroundImage: `url(${trip.bgImage})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center'
+                        }}
+                      ></div>
+                      
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b1121] via-[#0b1121]/70 to-[#0b1121]/10 z-1"></div>
                     </div>
 
-                    {selectedTrip.price > 0 && (
-                      <div>
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">{txt.paxCount}</label>
-                        <div className="relative flex items-center bg-[#1e293b]/50 border border-slate-700 rounded-xl overflow-hidden">
-                          <button onClick={() => setPax(Math.max(1, pax - 1))} className="px-5 py-3.5 hover:bg-slate-700 text-white font-bold text-lg cursor-pointer">-</button>
-                          <input type="text" readOnly value={`${pax} ${txt.paxUnit}`} className="w-full bg-transparent text-center text-white font-bold outline-none" />
-                          <button onClick={() => setPax(pax + 1)} className="px-5 py-3.5 hover:bg-slate-700 text-white font-bold text-lg cursor-pointer">+</button>
-                        </div>
+                    {/* Badge Popular / Promo */}
+                    {trip.type === 'popular' && (
+                      <div className="absolute -top-3 left-6 z-20 bg-emerald-500 text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-emerald-500/40">
+                        {txt.popular}
                       </div>
                     )}
-                  </div>
-
-                  <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 mb-6">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-slate-400 text-sm">{txt.pricePerPax}</span>
-                      <span className="text-white font-medium">
-                        {selectedTrip.price > 0 ? formatRp(selectedTrip.promoPrice || selectedTrip.price) : '-'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center pt-3 border-t border-slate-800">
-                      <span className="text-emerald-500 font-bold">{txt.totalPayment}</span>
-                      <span className="text-emerald-500 font-bold text-xl">
-                        {selectedTrip.price > 0 ? formatRp(totalPembayaran) : txt.contactUs}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button 
-                    disabled={selectedTrip.price > 0 && !bookingDate}
-                    onClick={() => selectedTrip.price > 0 ? setStep(2) : alert('Membuka WhatsApp...')}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-500 disabled:border disabled:border-slate-700 text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all shadow-lg shadow-emerald-900/20 cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    {selectedTrip.price > 0 ? txt.toPayment : txt.toWA}
-                    {selectedTrip.price > 0 && <ArrowRight size={18} />}
-                  </button>
-                </>
-              )}
-
-              {/* STEP 2: METODE PEMBAYARAN */}
-              {step === 2 && (
-                <div className="animate-in slide-in-from-right-4 duration-300">
-                  <button 
-                    onClick={() => setStep(1)} 
-                    className="flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors cursor-pointer"
-                  >
-                    <ChevronLeft size={16} /> {txt.back}
-                  </button>
-
-                  <h3 className="text-xl font-bold text-white mb-2">{txt.payMethod}</h3>
-                  <p className="text-slate-400 text-sm mb-6">{txt.payDesc}</p>
-
-                  <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 flex justify-between items-center mb-6">
-                    <span className="text-slate-300">{txt.bill}</span>
-                    <span className="text-white font-bold text-lg">{formatRp(totalPembayaran)}</span>
-                  </div>
-
-                  <div className="space-y-3 mb-8">
-                    <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === 'va' ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700 bg-[#1e293b]/50 hover:border-slate-500'}`}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400"><Building2 size={16}/></div>
-                        <span className="text-white font-medium">BCA Virtual Account</span>
+                    {trip.type === 'promo' && (
+                      <div className="absolute -top-3 left-6 z-20 bg-rose-500 text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg shadow-rose-500/40 animate-pulse">
+                        {txt.promo}
                       </div>
-                      <input type="radio" name="payment" className="w-4 h-4 accent-emerald-500" checked={paymentMethod === 'va'} onChange={() => setPaymentMethod('va')} />
-                    </label>
+                    )}
 
-                    <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === 'gopay' ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700 bg-[#1e293b]/50 hover:border-slate-500'}`}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400"><Wallet size={16}/></div>
-                        <span className="text-white font-medium">GoPay / e-Wallet</span>
+                    {/* Konten Teks Kartu */}
+                    <div className="relative z-10 flex flex-col h-full p-6">
+                      <div className="flex-1 mt-4">
+                        <h3 className="text-2xl font-bold text-white mb-3 drop-shadow-md">
+                          {lang === 'en' ? trip.enTitle : trip.title}
+                        </h3>
+                        <p className="text-slate-300 text-sm leading-relaxed mb-6 drop-shadow-md">
+                          {lang === 'en' ? trip.enRoute : trip.route}
+                        </p>
                       </div>
-                      <input type="radio" name="payment" className="w-4 h-4 accent-emerald-500" checked={paymentMethod === 'gopay'} onChange={() => setPaymentMethod('gopay')} />
-                    </label>
 
-                    <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === 'qris' ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700 bg-[#1e293b]/50 hover:border-slate-500'}`}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400"><QrCode size={16}/></div>
-                        <span className="text-white font-medium">QRIS (All Payment)</span>
-                      </div>
-                      <input type="radio" name="payment" className="w-4 h-4 accent-emerald-500" checked={paymentMethod === 'qris'} onChange={() => setPaymentMethod('qris')} />
-                    </label>
-                  </div>
+                      <div className="mt-auto border-t border-slate-700/60 pt-5">
+                        {trip.type === 'promo' ? (
+                          <div className="mb-4">
+                            <p className="text-slate-400 text-xs line-through mb-1">{formatRp(trip.price)}</p>
+                            <p className="text-white font-bold text-xl drop-shadow-md">
+                              {formatRp(trip.promoPrice!)} <span className="text-xs text-slate-300 font-normal">{txt.perPax}</span>
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="mb-4">
+                            <p className="text-white font-bold text-xl drop-shadow-md">
+                              {formatRp(trip.price)} {trip.price > 0 && <span className="text-xs text-slate-300 font-normal">{txt.perPax}</span>}
+                            </p>
+                          </div>
+                        )}
 
-                  <button 
-                    disabled={!paymentMethod}
-                    onClick={() => setStep(3)}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all cursor-pointer disabled:cursor-not-allowed"
-                  >
-                    <CreditCard size={20} /> {txt.payNow}
-                  </button>
-                </div>
-              )}
-
-              {/* STEP 3: INSTRUKSI PEMBAYARAN */}
-              {step === 3 && (
-                <div className="animate-in slide-in-from-right-4 duration-300">
-                  <button 
-                    onClick={() => setStep(2)} 
-                    className="flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors cursor-pointer"
-                  >
-                    <ChevronLeft size={16} /> {txt.changeMethod}
-                  </button>
-
-                  <h3 className="text-xl font-bold text-white mb-1">{txt.finishPay}</h3>
-                  <p className="text-slate-400 text-xs mb-6">{txt.payLimit} <span className="text-rose-400 font-bold">23 {txt.hour} 59 {txt.minute}</span></p>
-
-                  <div className="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 mb-6 space-y-3">
-                    <div className="flex justify-between items-center pb-3 border-b border-slate-800">
-                      <span className="text-slate-400 text-sm">{txt.method}</span>
-                      <span className="text-white font-bold uppercase">{paymentMethod === 'va' ? 'BCA Virtual Account' : paymentMethod === 'gopay' ? 'GoPay / E-Wallet' : 'QRIS'}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-400 text-sm">{txt.bill}</span>
-                      <span className="text-emerald-400 font-bold text-lg">{formatRp(totalPembayaran)}</span>
-                    </div>
-                  </div>
-
-                  {paymentMethod === 'va' && (
-                    <div className="bg-slate-800/50 rounded-2xl p-5 border border-slate-700 mb-6 text-center">
-                      <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">{txt.copyVA}</p>
-                      <div className="flex items-center justify-center gap-3 bg-slate-900 py-3 px-4 rounded-xl border border-slate-800 mb-3">
-                        <span className="text-xl md:text-2xl font-mono font-bold text-white tracking-wider">8077 7012 3456 7890</span>
-                        <button onClick={() => handleCopy('8077701234567890')} className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer p-1">
-                          <Copy size={18} />
+                        <button 
+                          onClick={() => setSelectedTrip(trip)}
+                          className="flex items-center justify-between text-sm text-white bg-slate-900/60 backdrop-blur-sm border border-slate-600 px-5 py-3 rounded-xl hover:bg-emerald-600 hover:border-emerald-600 transition-all w-full group/btn cursor-pointer"
+                        >
+                          {txt.seeDetail}
+                          <ArrowRight size={16} className="text-emerald-400 group-hover/btn:text-white transition-colors" />
                         </button>
                       </div>
-                      {copied && <p className="text-emerald-400 text-xs font-medium">{txt.copied}</p>}
-                      <p className="text-slate-400 text-xs mt-3">{txt.vaInst}</p>
-                    </div>
-                  )}
-
-                  {paymentMethod === 'gopay' && (
-                    <div className="bg-slate-800/50 rounded-2xl p-5 border border-slate-700 mb-6 text-center">
-                      <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">{txt.walletNum}</p>
-                      <div className="flex items-center justify-center gap-3 bg-slate-900 py-3 px-4 rounded-xl border border-slate-800 mb-3">
-                        <span className="text-xl md:text-2xl font-mono font-bold text-white tracking-wider">+62 821 7654 3210</span>
-                        <button onClick={() => handleCopy('6282176543210')} className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer p-1">
-                          <Copy size={18} />
-                        </button>
-                      </div>
-                      {copied && <p className="text-emerald-400 text-xs font-medium">{txt.copied}</p>}
-                      <p className="text-slate-400 text-xs mt-3">{txt.walletInst}</p>
-                    </div>
-                  )}
-
-                  {paymentMethod === 'qris' && (
-                    <div className="bg-slate-800/50 rounded-2xl p-5 border border-slate-700 mb-6 flex flex-col items-center text-center">
-                      <p className="text-slate-400 text-xs uppercase tracking-wider mb-4">{txt.scanQR}</p>
-                      <div className="bg-white w-40 h-40 mx-auto rounded-lg p-3 mb-3">
-                        <svg className="w-full h-full text-slate-900" viewBox="0 0 100 100" fill="currentColor">
-                          <path d="M0,0 v30 h30 v-30 z M5,5 h20 v20 h-20 z M10,10 v10 h10 v-10 z" />
-                          <path d="M70,0 v30 h30 v-30 z M75,5 h20 v20 h-20 z M80,10 v10 h10 v-10 z" />
-                          <path d="M0,70 v30 h30 v-30 z M5,75 h20 v20 h-20 z M10,80 v10 h10 v-10 z" />
-                          <rect x="35" y="5" width="10" height="10" /><rect x="50" y="5" width="10" height="10" />
-                          <rect x="35" y="20" width="10" height="10" /><rect x="55" y="20" width="10" height="10" />
-                          <rect x="5" y="35" width="10" height="10" /><rect x="20" y="35" width="10" height="10" />
-                          <rect x="35" y="35" width="30" height="30" />
-                          <rect x="70" y="35" width="10" height="10" /><rect x="85" y="35" width="10" height="10" />
-                          <rect x="5" y="50" width="10" height="10" /><rect x="20" y="50" width="10" height="10" />
-                          <rect x="70" y="50" width="10" height="10" /><rect x="85" y="50" width="10" height="10" />
-                          <rect x="35" y="70" width="10" height="10" /><rect x="50" y="70" width="10" height="10" />
-                          <rect x="70" y="70" width="30" height="30" />
-                        </svg>
-                      </div>
-                      <p className="text-slate-400 text-xs">{txt.qrInst}</p>
-                    </div>
-                  )}
-
-                  <button 
-                    onClick={() => setStep(4)}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all shadow-lg shadow-emerald-900/30 cursor-pointer"
-                  >
-                    <CheckCircle2 size={20} /> {txt.iHavePaid}
-                  </button>
-                </div>
-              )}
-
-              {/* STEP 4: KONFIRMASI PEMBAYARAN */}
-              {step === 4 && (
-                <div className="animate-in zoom-in-95 duration-300 text-center">
-                  <div className="mb-6">
-                    <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <CheckCircle2 size={32} className="text-emerald-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{txt.paySuccess}</h3>
-                    <p className="text-slate-400 text-sm">{txt.paySuccessDesc}</p>
-                  </div>
-
-                  <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 mb-6 text-left space-y-3">
-                    <div className="flex justify-between items-start">
-                      <span className="text-slate-400 text-sm">{txt.tripPackage}</span>
-                      <span className="text-white font-bold text-right">{lang === 'en' ? selectedTrip.enTitle : selectedTrip.title}</span>
-                    </div>
-                    <div className="flex justify-between items-start">
-                      <span className="text-slate-400 text-sm">{txt.date}</span>
-                      <span className="text-white font-bold">{bookingDate}</span>
-                    </div>
-                    <div className="flex justify-between items-start">
-                      <span className="text-slate-400 text-sm">{txt.passenger}</span>
-                      <span className="text-white font-bold">{pax} {txt.paxUnit}</span>
-                    </div>
-                    <div className="border-t border-slate-800 pt-3 flex justify-between items-start">
-                      <span className="text-emerald-400 font-bold">{txt.totalPaid}</span>
-                      <span className="text-emerald-400 font-bold text-lg">{formatRp(totalPembayaran)}</span>
                     </div>
                   </div>
+                ))}
+              </div>
 
-                  <button 
-                    onClick={closeModal}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all cursor-pointer"
-                  >
-                    {txt.close}
-                  </button>
-                </div>
-              )}
+              <button 
+                onClick={() => scroll('right')} 
+                className="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 z-20 w-12 h-12 bg-slate-800 rounded-full border border-slate-600 hidden md:flex items-center justify-center text-white hover:bg-emerald-600 hover:border-emerald-500 shadow-xl transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+              >
+                <ArrowRight size={20} />
+              </button>
+
             </div>
           </div>
-        )}
-      </>
-    );
-  }
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* MODAL PEMBAYARAN & BOOKING                               */}
+      {/* ======================================================== */}
+      {selectedTrip && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-[#050810]/95 backdrop-blur-sm animate-in fade-in duration-200" data-aos="fade-in">
+          <div className="bg-[#0b1121] rounded-3xl p-6 md:p-8 max-w-md w-full relative border border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.5)] scale-in-center max-h-[90vh] overflow-y-auto hide-scrollbar" data-aos="zoom-in">
+            
+            <button 
+              onClick={closeModal} 
+              className="absolute top-5 right-5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full p-2 transition-colors z-10 cursor-pointer"
+            >
+              <X size={20}/>
+            </button>
+
+            {/* STEP 1: FORM BOOKING */}
+            {step === 1 && (
+              <>
+                <h3 className="text-2xl font-bold text-white mb-1">{txt.modalBooking}</h3>
+                <p className="text-slate-400 text-sm mb-6 pb-4 border-b border-slate-800">
+                  {lang === 'en' ? selectedTrip.enTitle : selectedTrip.title} • {selectedTrip.type === 'custom' ? txt.modalCustom : txt.modalReguler}
+                </p>
+
+                <div className="space-y-5 mb-8">
+                  <div>
+                    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">{txt.selectDate} <span className="text-rose-500">*</span></label>
+                    <div className="relative">
+                      <input 
+                        type="date" 
+                        value={bookingDate}
+                        onChange={(e) => setBookingDate(e.target.value)}
+                        className="w-full bg-[#1e293b]/50 border border-slate-700 focus:border-emerald-500 rounded-xl px-4 py-3.5 text-white outline-none transition-colors cursor-pointer" 
+                      />
+                      <Calendar size={18} className="absolute right-4 top-4 text-slate-400 pointer-events-none" />
+                    </div>
+                    {!bookingDate && <p className="text-rose-400 text-xs mt-1.5">{txt.dateRequired}</p>}
+                  </div>
+
+                  {selectedTrip.price > 0 && (
+                    <div>
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">{txt.paxCount}</label>
+                      <div className="relative flex items-center bg-[#1e293b]/50 border border-slate-700 rounded-xl overflow-hidden">
+                        <button onClick={() => setPax(Math.max(1, pax - 1))} className="px-5 py-3.5 hover:bg-slate-700 text-white font-bold text-lg cursor-pointer">-</button>
+                        <input type="text" readOnly value={`${pax} ${txt.paxUnit}`} className="w-full bg-transparent text-center text-white font-bold outline-none" />
+                        <button onClick={() => setPax(pax + 1)} className="px-5 py-3.5 hover:bg-slate-700 text-white font-bold text-lg cursor-pointer">+</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 mb-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-slate-400 text-sm">{txt.pricePerPax}</span>
+                    <span className="text-white font-medium">
+                      {selectedTrip.price > 0 ? formatRp(selectedTrip.promoPrice || selectedTrip.price) : '-'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center pt-3 border-t border-slate-800">
+                    <span className="text-emerald-500 font-bold">{txt.totalPayment}</span>
+                    <span className="text-emerald-500 font-bold text-xl">
+                      {selectedTrip.price > 0 ? formatRp(totalPembayaran) : txt.contactUs}
+                    </span>
+                  </div>
+                </div>
+
+                <button 
+                  disabled={!bookingDate}
+                  onClick={() => selectedTrip.price > 0 ? setStep(2) : handleWhatsApp()}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-500 disabled:border disabled:border-slate-700 text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all shadow-lg shadow-emerald-900/20 cursor-pointer disabled:cursor-not-allowed"
+                >
+                  {selectedTrip.price > 0 ? txt.toPayment : txt.toWA}
+                  {selectedTrip.price > 0 && <ArrowRight size={18} />}
+                </button>
+              </>
+            )}
+
+            {/* STEP 2: METODE PEMBAYARAN */}
+            {step === 2 && (
+              <div className="animate-in slide-in-from-right-4 duration-300">
+                <button 
+                  onClick={() => setStep(1)} 
+                  className="flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors cursor-pointer"
+                >
+                  <ChevronLeft size={16} /> {txt.back}
+                </button>
+
+                <h3 className="text-xl font-bold text-white mb-2">{txt.payMethod}</h3>
+                <p className="text-slate-400 text-sm mb-6">{txt.payDesc}</p>
+
+                <div className="bg-slate-800/50 rounded-xl p-4 border border-slate-700 flex justify-between items-center mb-6">
+                  <span className="text-slate-300">{txt.bill}</span>
+                  <span className="text-white font-bold text-lg">{formatRp(totalPembayaran)}</span>
+                </div>
+
+                <div className="space-y-3 mb-8">
+                  <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === 'va' ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700 bg-[#1e293b]/50 hover:border-slate-500'}`}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400"><Building2 size={16}/></div>
+                      <span className="text-white font-medium">BCA Virtual Account</span>
+                    </div>
+                    <input type="radio" name="payment" className="w-4 h-4 accent-emerald-500" checked={paymentMethod === 'va'} onChange={() => setPaymentMethod('va')} />
+                  </label>
+
+                  <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === 'gopay' ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700 bg-[#1e293b]/50 hover:border-slate-500'}`}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400"><Wallet size={16}/></div>
+                      <span className="text-white font-medium">GoPay / e-Wallet</span>
+                    </div>
+                    <input type="radio" name="payment" className="w-4 h-4 accent-emerald-500" checked={paymentMethod === 'gopay'} onChange={() => setPaymentMethod('gopay')} />
+                  </label>
+
+                  <label className={`flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all ${paymentMethod === 'qris' ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700 bg-[#1e293b]/50 hover:border-slate-500'}`}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400"><QrCode size={16}/></div>
+                      <span className="text-white font-medium">QRIS (All Payment)</span>
+                    </div>
+                    <input type="radio" name="payment" className="w-4 h-4 accent-emerald-500" checked={paymentMethod === 'qris'} onChange={() => setPaymentMethod('qris')} />
+                  </label>
+                </div>
+
+                <button 
+                  disabled={!paymentMethod}
+                  onClick={() => setStep(3)}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all cursor-pointer disabled:cursor-not-allowed"
+                >
+                  <CreditCard size={20} /> {txt.payNow}
+                </button>
+              </div>
+            )}
+
+            {/* STEP 3: INSTRUKSI PEMBAYARAN */}
+            {step === 3 && (
+              <div className="animate-in slide-in-from-right-4 duration-300">
+                <button 
+                  onClick={() => setStep(2)} 
+                  className="flex items-center gap-2 text-slate-400 hover:text-white text-sm mb-6 transition-colors cursor-pointer"
+                >
+                  <ChevronLeft size={16} /> {txt.changeMethod}
+                </button>
+
+                <h3 className="text-xl font-bold text-white mb-1">{txt.finishPay}</h3>
+                <p className="text-slate-400 text-xs mb-6">{txt.payLimit} <span className="text-rose-400 font-bold">23 {txt.hour} 59 {txt.minute}</span></p>
+
+                <div className="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 mb-6 space-y-3">
+                  <div className="flex justify-between items-center pb-3 border-b border-slate-800">
+                    <span className="text-slate-400 text-sm">{txt.method}</span>
+                    <span className="text-white font-bold uppercase">{paymentMethod === 'va' ? 'BCA Virtual Account' : paymentMethod === 'gopay' ? 'GoPay / E-Wallet' : 'QRIS'}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-400 text-sm">{txt.bill}</span>
+                    <span className="text-emerald-400 font-bold text-lg">{formatRp(totalPembayaran)}</span>
+                  </div>
+                </div>
+
+                {paymentMethod === 'va' && (
+                  <div className="bg-slate-800/50 rounded-2xl p-5 border border-slate-700 mb-6 text-center">
+                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">{txt.copyVA}</p>
+                    <div className="flex items-center justify-center gap-3 bg-slate-900 py-3 px-4 rounded-xl border border-slate-800 mb-3">
+                      <span className="text-xl md:text-2xl font-mono font-bold text-white tracking-wider">8077 7012 3456 7890</span>
+                      <button onClick={() => handleCopy('8077701234567890')} className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer p-1">
+                        <Copy size={18} />
+                      </button>
+                    </div>
+                    {copied && <p className="text-emerald-400 text-xs font-medium">{txt.copied}</p>}
+                    <p className="text-slate-400 text-xs mt-3">{txt.vaInst}</p>
+                  </div>
+                )}
+
+                {paymentMethod === 'gopay' && (
+                  <div className="bg-slate-800/50 rounded-2xl p-5 border border-slate-700 mb-6 text-center">
+                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">{txt.walletNum}</p>
+                    <div className="flex items-center justify-center gap-3 bg-slate-900 py-3 px-4 rounded-xl border border-slate-800 mb-3">
+                      <span className="text-xl md:text-2xl font-mono font-bold text-white tracking-wider">+62 821 7654 3210</span>
+                      <button onClick={() => handleCopy('6282176543210')} className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer p-1">
+                        <Copy size={18} />
+                      </button>
+                    </div>
+                    {copied && <p className="text-emerald-400 text-xs font-medium">{txt.copied}</p>}
+                    <p className="text-slate-400 text-xs mt-3">{txt.walletInst}</p>
+                  </div>
+                )}
+
+                {paymentMethod === 'qris' && (
+                  <div className="bg-slate-800/50 rounded-2xl p-5 border border-slate-700 mb-6 flex flex-col items-center text-center">
+                    <p className="text-slate-400 text-xs uppercase tracking-wider mb-4">{txt.scanQR}</p>
+                    <div className="bg-white w-40 h-40 mx-auto rounded-lg p-3 mb-3">
+                      <svg className="w-full h-full text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M0,0 v30 h30 v-30 z M5,5 h20 v20 h-20 z M10,10 v10 h10 v-10 z" />
+                        <path d="M70,0 v30 h30 v-30 z M75,5 h20 v20 h-20 z M80,10 v10 h10 v-10 z" />
+                        <path d="M0,70 v30 h30 v-30 z M5,75 h20 v20 h-20 z M10,80 v10 h10 v-10 z" />
+                        <rect x="35" y="5" width="10" height="10" /><rect x="50" y="5" width="10" height="10" />
+                        <rect x="35" y="20" width="10" height="10" /><rect x="55" y="20" width="10" height="10" />
+                        <rect x="5" y="35" width="10" height="10" /><rect x="20" y="35" width="10" height="10" />
+                        <rect x="35" y="35" width="30" height="30" />
+                        <rect x="70" y="35" width="10" height="10" /><rect x="85" y="35" width="10" height="10" />
+                        <rect x="5" y="50" width="10" height="10" /><rect x="20" y="50" width="10" height="10" />
+                        <rect x="70" y="50" width="10" height="10" /><rect x="85" y="50" width="10" height="10" />
+                        <rect x="35" y="70" width="10" height="10" /><rect x="50" y="70" width="10" height="10" />
+                        <rect x="70" y="70" width="30" height="30" />
+                      </svg>
+                    </div>
+                    <p className="text-slate-400 text-xs">{txt.qrInst}</p>
+                  </div>
+                )}
+
+                <button 
+                  onClick={() => setStep(4)}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl flex justify-center items-center gap-2 transition-all shadow-lg shadow-emerald-900/30 cursor-pointer"
+                >
+                  <CheckCircle2 size={20} /> {txt.iHavePaid}
+                </button>
+              </div>
+            )}
+
+            {/* STEP 4: KONFIRMASI PEMBAYARAN */}
+            {step === 4 && (
+              <div className="animate-in zoom-in-95 duration-300 text-center">
+                <div className="mb-6">
+                  <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <CheckCircle2 size={32} className="text-emerald-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2">{txt.paySuccess}</h3>
+                  <p className="text-slate-400 text-sm">{txt.paySuccessDesc}</p>
+                </div>
+
+                <div className="bg-slate-900/80 rounded-2xl p-4 border border-slate-800 mb-6 text-left space-y-3">
+                  <div className="flex justify-between items-start">
+                    <span className="text-slate-400 text-sm">{txt.tripPackage}</span>
+                    <span className="text-white font-bold text-right">{lang === 'en' ? selectedTrip.enTitle : selectedTrip.title}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <span className="text-slate-400 text-sm">{txt.date}</span>
+                    <span className="text-white font-bold">{bookingDate}</span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <span className="text-slate-400 text-sm">{txt.passenger}</span>
+                    <span className="text-white font-bold">{pax} {txt.paxUnit}</span>
+                  </div>
+                  <div className="border-t border-slate-800 pt-3 flex justify-between items-start">
+                    <span className="text-emerald-400 font-bold">{txt.totalPaid}</span>
+                    <span className="text-emerald-400 font-bold text-lg">{formatRp(totalPembayaran)}</span>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={closeModal}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all cursor-pointer"
+                >
+                  {txt.close}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
