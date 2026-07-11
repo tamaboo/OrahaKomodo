@@ -75,7 +75,7 @@ export default function Sejarah() {
           <img 
             src="/sejarah/bg.png" 
             alt="Background Sejarah" 
-            className="w-full h-full object-cover object-center opacity-100 transition-transform duration-1000 ease-out" 
+            className="w-full h-full object-cover object-top opacity-100 transition-transform duration-1000 ease-out" 
           />
           {/* Overlay Tipis: Cukup 20% agar warna asli gambar tetap menonjol */}
           <div className="absolute inset-0 bg-[#050810]/20 pointer-events-none"></div>

@@ -91,7 +91,7 @@ export default function Hero() {
               key={index}
               src={src} 
               alt={`Komodo Island Background ${index + 1}`} 
-              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 w-full h-full object-cover object-bottom transition-opacity duration-1000 ease-in-out ${
                 index === currentBg ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             />

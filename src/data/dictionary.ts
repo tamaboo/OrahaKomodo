@@ -117,9 +117,8 @@ export const dict: any = {
       ]
     },
     testimoni: {
-      title1: "Jejak",
-      title2: "Kebaikan",
-      visitor: "Pengunjung",
+      title1: "Testimoni",
+      title2: "Pengunjung",
       data: [
         { id: 1, nama: 'Budi S', teks: 'Luar biasa!', avatar: 'https://i.pravatar.cc/150?img=11' },
         { id: 2, nama: 'Sarah W', teks: 'Ekowisata nyata.', avatar: 'https://i.pravatar.cc/150?img=5' },
@@ -267,9 +266,8 @@ export const dict: any = {
       ]
     },
     testimoni: {
-      title1: "Traces of",
-      title2: "Goodness",
-      visitor: "Visitor",
+      title1: "Visitor",
+      title2: "Testimonials",
       data: [
         { id: 1, nama: 'Budi S', teks: 'Incredible!', avatar: 'https://i.pravatar.cc/150?img=11' },
         { id: 2, nama: 'Sarah W', teks: 'True ecotourism.', avatar: 'https://i.pravatar.cc/150?img=5' },

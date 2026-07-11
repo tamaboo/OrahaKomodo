@@ -48,7 +48,7 @@ export default function Peta() {
       </div>
 
       {/* LAYER 1.5: TITIK PIN PETA INTERAKTIF */}
-      <div className="absolute inset-0 max-w-[1600px] mx-auto w-full h-full pointer-events-auto z-50 -translate-y-52 -translate-x-8 md:translate-y-0 md:translate-x-0">
+      <div className="absolute inset-0 max-w-[1600px] mx-auto w-full h-full pointer-events-auto z-50 -translate-y-52 -translate-x-6 md:translate-y-0 md:translate-x-0">
 
         {mapLocations.map((loc) => (
           <div 

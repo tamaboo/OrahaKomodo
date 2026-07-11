@@ -13,6 +13,7 @@ Website ini merupakan platform ekowisata dan pariwisata berkelanjutan yang dikem
 - 💳 **Tour Booking System**: Sistem formulir pemesanan paket wisata dengan UI/UX modern, dilengkapi simulasi alur pembayaran via Virtual Account (BCA), E-Wallet (GoPay/OVO/DANA), dan QRIS.
 - 📱 **100% Responsive Design**: Tata letak dan penataan gambar latar belakang (_background_) yang dioptimalkan secara sempurna untuk segala ukuran layar (Mobile, Tablet, Desktop) tanpa terpotong.
 - ⚡ **High Performance & Animations**: Performa memuat halaman yang sangat cepat berkat SSR Next.js, dibalut dengan animasi transisi yang mulus menggunakan GSAP (GreenSock) dan CSS modern.
+- 🤖 **AI-Powered Travel Assistant**: Chatbot pintar yang terintegrasi secara real-time untuk menjawab pertanyaan seputar panduan wisata, aturan konservasi, hingga rekomendasi rute perjalanan secara personal, tersedia 24/7 untuk memastikan kenyamanan pengunjung
 
 ---
 
